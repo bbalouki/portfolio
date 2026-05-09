@@ -1,6 +1,6 @@
 # Deployment
 
-Two free hosting options for this portfolio (no build step required — just `portfolio.html`).
+Two free hosting options for this portfolio (no build step required — just `index.html`).
 
 ---
 
@@ -17,11 +17,11 @@ Two free hosting options for this portfolio (no build step required — just `po
    git push -u origin main
    ```
 
-2. Rename `portfolio.html` to `index.html` (GitHub Pages serves `index.html` as the root):
+2. Rename `index.html` to `index.html` (GitHub Pages serves `index.html` as the root):
 
    ```powershell
-   git mv portfolio.html index.html
-   git commit -m "rename portfolio.html to index.html for GitHub Pages"
+   git mv index.html index.html
+   git commit -m "rename index.html to index.html for GitHub Pages"
    git push
    ```
 
@@ -42,7 +42,7 @@ Add a `CNAME` file at the repo root containing your domain (e.g. `bbs-trading.co
 ### Option A — Drag & Drop (fastest, no CLI needed)
 
 1. Go to [app.netlify.com](https://app.netlify.com) and sign in (GitHub login works).
-2. Drag the project folder (containing `portfolio.html`) onto the Netlify dashboard.
+2. Drag the project folder (containing `index.html`) onto the Netlify dashboard.
 3. Netlify assigns a random URL like `https://random-name.netlify.app` immediately.
 4. Rename the site under **Site settings → Site name** to get `https://bbalouki.netlify.app`.
 

@@ -8,21 +8,21 @@ Personal portfolio website for Bertin Balouki SIMYELI (Quant Developer · System
 
 ## Development
 
-To preview locally, open `portfolio.html` directly in a browser. No server or build step is required. For live-reload development, any static file server works:
+To preview locally, open `index.html` directly in a browser. No server or build step is required. For live-reload development, any static file server works:
 
 ```powershell
 # Python (if available)
 python -m http.server 8080
 
 # Or open directly
-start portfolio.html
+start index.html
 ```
 
 Deployment is any static host (GitHub Pages, Netlify, Vercel, etc.). See `DEPLOYMENT.md` for step-by-step instructions.
 
 ## Architecture: Single-File SPA
 
-`portfolio.html` is the entire codebase (~115KB, 3194 lines). All CSS and JS are inline:
+`index.html` is the entire codebase (~115KB, 3194 lines). All CSS and JS are inline:
 
 - **`<style>` (~2137 lines, lines 17–2154)** — CSS custom properties for theming at `:root`, then section-by-section styles. Responsive breakpoints at `<900px` and `<600px`.
 - **`<body>`** — Eight `<section>` elements by ID: `hero`, `about`, `ai`, `experience`, `education`, `projects`, `writing`, `contact`, plus a fixed `<nav id="nav">`, a `<footer>`, and a floating `.chat-widget` (WhatsApp + Telegram buttons).
