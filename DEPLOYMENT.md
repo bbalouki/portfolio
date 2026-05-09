@@ -51,8 +51,8 @@ Add a `CNAME` file at the repo root containing your domain (e.g. `bbs-trading.co
 1. Push this repo to GitHub (see Option 1, step 1).
 2. In Netlify: **Add new site → Import an existing project → GitHub**.
 3. Select the repo. Set:
-   - **Base directory**: *(leave blank)*
-   - **Build command**: *(leave blank)*
+   - **Base directory**: _(leave blank)_
+   - **Build command**: _(leave blank)_
    - **Publish directory**: `.` (a single dot — the repo root)
 4. Click **Deploy**. Every `git push` to `main` will trigger a new deploy automatically.
 
@@ -64,12 +64,12 @@ In Netlify go to **Site settings → Domain management → Add a domain**. Netli
 
 ## Comparison
 
-| | GitHub Pages | Netlify |
-|---|---|---|
-| Free tier | Yes | Yes |
-| Auto-deploy on push | Yes (after setup) | Yes |
-| CDN | Yes | Yes (global edge) |
-| Custom domain + HTTPS | Yes | Yes |
-| Drag-and-drop deploy | No | Yes |
-| Build minutes | N/A | 300 min/month free |
-| Best for | Simplest Git workflow | Fastest first deploy |
+|                       | GitHub Pages          | Netlify              |
+| --------------------- | --------------------- | -------------------- |
+| Free tier             | Yes                   | Yes                  |
+| Auto-deploy on push   | Yes (after setup)     | Yes                  |
+| CDN                   | Yes                   | Yes (global edge)    |
+| Custom domain + HTTPS | Yes                   | Yes                  |
+| Drag-and-drop deploy  | No                    | Yes                  |
+| Build minutes         | N/A                   | 300 min/month free   |
+| Best for              | Simplest Git workflow | Fastest first deploy |
