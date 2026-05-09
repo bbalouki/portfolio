@@ -1,0 +1,3194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>BBS</title>
+    <link rel="icon" type="image/jpeg"
+        href="https://yt3.ggpht.com/KicMONvuXsCQgxfB2GcDiA9ucWL1ePOt3sRi2c3YLGX3F4n-86DZJWu6yZdunakXzEBIV7umLH0=s88-c-k-c0x00ffffff-no-rj" />
+    <link rel="apple-touch-icon"
+        href="https://yt3.ggpht.com/KicMONvuXsCQgxfB2GcDiA9ucWL1ePOt3sRi2c3YLGX3F4n-86DZJWu6yZdunakXzEBIV7umLH0=s88-c-k-c0x00ffffff-no-rj" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,600;12..96,700;12..96,800;12..96,900&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --bg: #0d1117;
+            --bg-subtle: #161b22;
+            --bg-inset: #010409;
+            --bg-overlay: #1c2128;
+            --border: #30363d;
+            --border-subtle: #21262d;
+            --text: #e6edf3;
+            --text-2: #7d8590;
+            --text-3: #484f58;
+            --blue: #2f81f7;
+            --blue-l: #79c0ff;
+            --blue-d: #1f4b8e;
+            --red: #f85149;
+            --red-d: #6e2020;
+            --white: #ffffff;
+            --green: #3fb950;
+            --orange: #d29922;
+            --purple: #a371f7;
+            --pink: #f778ba;
+            --r: 4px;
+            --sans: 'Bricolage Grotesque', sans-serif;
+            --mono: 'JetBrains Mono', monospace;
+            --serif: 'Instrument Serif', serif;
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--sans);
+            overflow-x: hidden;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* dot grid */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(circle, #21262d 1px, transparent 1px);
+            background-size: 28px 28px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 1;
+        }
+
+        #nav,
+        section,
+        footer,
+        .site-bg {
+            position: relative;
+            z-index: 1
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg)
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px
+        }
+
+        ::selection {
+            background: rgba(47, 129, 247, .25);
+            color: var(--text)
+        }
+
+        /* ── FLOATING BLOBS ── */
+        .site-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(110px);
+            animation: floatBlob var(--d, 10s) ease-in-out var(--delay, 0s) infinite alternate;
+        }
+
+        .blob-1 {
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(47, 129, 247, .18), transparent 70%);
+            top: -250px;
+            right: -150px;
+            --d: 13s;
+        }
+
+        .blob-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(248, 81, 73, .12), transparent 70%);
+            bottom: 5%;
+            left: -100px;
+            --d: 15s;
+            --delay: -6s;
+        }
+
+        .blob-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(163, 113, 247, .1), transparent 70%);
+            top: 40%;
+            left: 20%;
+            --d: 9s;
+            --delay: -3s;
+        }
+
+        @keyframes floatBlob {
+            0% {
+                transform: translate(0, 0) scale(1)
+            }
+
+            100% {
+                transform: translate(var(--tx, 25px), var(--ty, -35px)) scale(1.04)
+            }
+        }
+
+        /* ── NAV ── */
+        #nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            background: rgba(13, 17, 23, .82);
+            border-bottom: 1px solid var(--border-subtle);
+            backdrop-filter: blur(18px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            height: 56px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            font-family: var(--mono);
+            font-size: .75rem;
+            color: var(--text-2);
+            text-decoration: none;
+        }
+
+        .nav-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue), var(--red));
+            flex-shrink: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: .15rem;
+            list-style: none
+        }
+
+        .nav-links a {
+            font-family: var(--mono);
+            font-size: .7rem;
+            color: var(--text-2);
+            text-decoration: none;
+            padding: .38rem .7rem;
+            border-radius: var(--r);
+            transition: color .15s, background .15s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+            background: var(--bg-subtle)
+        }
+
+        .nav-cta {
+            font-family: var(--mono);
+            font-size: .72rem;
+            background: var(--blue);
+            color: var(--white);
+            padding: .4rem .9rem;
+            border-radius: var(--r);
+            text-decoration: none;
+            transition: background .15s, box-shadow .15s;
+        }
+
+        .nav-cta:hover {
+            background: #388bfd;
+            box-shadow: 0 0 18px rgba(47, 129, 247, .35)
+        }
+
+        /* ── HERO ── */
+        #hero {
+            min-height: 100vh;
+            padding: 6rem 2rem 5rem;
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            max-width: 1280px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .hero-inner {
+            flex: 1;
+            min-width: 0
+        }
+
+        .hero-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 1.6rem;
+            position: relative;
+            display: inline-block;
+            opacity: 0;
+            animation: rise .5s .05s ease forwards;
+            box-shadow:
+                0 0 0 2px var(--bg),
+                0 0 0 4px rgba(47, 129, 247, .4),
+                0 0 28px rgba(47, 129, 247, .2);
+        }
+
+
+        .hero-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* About photo */
+        .about-photo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.6rem;
+            padding-bottom: 1.4rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .about-photo {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 2px var(--border), 0 0 16px rgba(47, 129, 247, .15);
+        }
+
+        .about-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block
+        }
+
+        .about-photo-info {
+            min-width: 0
+        }
+
+        .about-photo-name {
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.2
+        }
+
+        .about-photo-title {
+            font-family: var(--mono);
+            font-size: .65rem;
+            color: var(--blue-l);
+            margin-top: .22rem
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            border: 1px solid rgba(63, 185, 80, .35);
+            background: rgba(63, 185, 80, .07);
+            border-radius: 2rem;
+            padding: .28rem .85rem;
+            font-family: var(--mono);
+            font-size: .7rem;
+            color: var(--green);
+            margin-bottom: 1.75rem;
+            opacity: 0;
+            animation: rise .5s .1s ease forwards;
+        }
+
+        .badge-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: pulse 2s infinite;
+            flex-shrink: 0;
+            box-shadow: 0 0 6px var(--green);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .35
+            }
+        }
+
+        /* ── HERO NAME ── */
+        .hero-name-wrap {
+            opacity: 0;
+            animation: rise .7s .2s ease forwards;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero-name-first {
+            display: block;
+            font-size: clamp(4.5rem, 13vw, 11rem);
+            font-weight: 900;
+            letter-spacing: -0.045em;
+            line-height: 0.87;
+            background: linear-gradient(125deg, #ffffff 0%, #c9e4ff 45%, #79c0ff 75%, #2f81f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 50px rgba(47, 129, 247, .25));
+        }
+
+        .hero-name-last {
+            display: block;
+            font-size: clamp(1.4rem, 4vw, 3.5rem);
+            font-weight: 300;
+            letter-spacing: .2em;
+            color: var(--text-2);
+            text-transform: uppercase;
+            margin-top: .1em;
+        }
+
+        .hero-name-accent {
+            color: var(--blue-l);
+            font-weight: 700;
+        }
+
+        .hero-role-bar {
+            display: flex;
+            align-items: center;
+            gap: .9rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-role-item {
+            display: flex;
+            align-items: center;
+            gap: .45rem;
+            font-family: var(--mono);
+            font-size: .78rem;
+            font-weight: 500;
+        }
+
+        .role-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%
+        }
+
+        .role-dot.blue {
+            background: var(--blue)
+        }
+
+        .role-dot.red {
+            background: var(--red)
+        }
+
+        .role-dot.purple {
+            background: var(--purple)
+        }
+
+        .role-blue {
+            color: var(--blue-l)
+        }
+
+        .role-red {
+            color: var(--red)
+        }
+
+        .role-purple {
+            color: var(--purple)
+        }
+
+        .hero-role-sep {
+            color: var(--text-3);
+            font-size: .9rem
+        }
+
+        .hero-sub {
+            margin-top: 1.6rem;
+            font-size: 1.05rem;
+            color: var(--text-2);
+            max-width: 600px;
+            line-height: 1.8;
+            opacity: 0;
+            animation: rise .6s .38s ease forwards;
+        }
+
+        .hero-sub strong {
+            color: var(--text);
+            font-weight: 600
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: .7rem;
+            flex-wrap: wrap;
+            margin-top: 1.8rem;
+            opacity: 0;
+            animation: rise .6s .52s ease forwards;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .6rem 1.2rem;
+            border-radius: var(--r);
+            font-family: var(--mono);
+            font-size: .78rem;
+            font-weight: 500;
+            text-decoration: none;
+            letter-spacing: .02em;
+            transition: all .18s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-blue {
+            background: var(--blue);
+            color: var(--white)
+        }
+
+        .btn-blue:hover {
+            background: #388bfd;
+            box-shadow: 0 0 22px rgba(47, 129, 247, .4);
+            transform: translateY(-2px)
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border)
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg-subtle);
+            border-color: var(--text-2);
+            transform: translateY(-2px)
+        }
+
+        .btn-red {
+            background: transparent;
+            color: var(--red);
+            border: 1px solid var(--red-d)
+        }
+
+        .btn-red:hover {
+            background: rgba(248, 81, 73, .07);
+            transform: translateY(-2px)
+        }
+
+        .btn-purple {
+            background: rgba(163, 113, 247, .13);
+            color: var(--purple);
+            border: 1px solid rgba(163, 113, 247, .3)
+        }
+
+        .btn-purple:hover {
+            background: rgba(163, 113, 247, .22);
+            transform: translateY(-2px)
+        }
+
+        .hero-chips {
+            display: flex;
+            gap: .4rem;
+            flex-wrap: wrap;
+            margin-top: 1.8rem;
+            opacity: 0;
+            animation: rise .6s .66s ease forwards;
+        }
+
+        .chip {
+            font-family: var(--mono);
+            font-size: .64rem;
+            padding: .2rem .62rem;
+            border: 1px solid var(--border-subtle);
+            border-radius: 2rem;
+            color: var(--text-3);
+            background: var(--bg-subtle);
+            transition: border-color .15s, color .15s;
+        }
+
+        .chip:hover {
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .hero-term {
+            margin-top: 2.25rem;
+            opacity: 0;
+            animation: rise .7s .82s ease forwards;
+        }
+
+        .term {
+            background: var(--bg-inset);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 560px;
+        }
+
+        .t-bar {
+            background: var(--bg-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: .5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: .45rem;
+        }
+
+        .td {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%
+        }
+
+        .td.r {
+            background: #f85149
+        }
+
+        .td.y {
+            background: #d29922
+        }
+
+        .td.g {
+            background: #3fb950
+        }
+
+        .t-lbl {
+            font-family: var(--mono);
+            font-size: .63rem;
+            color: var(--text-3);
+            margin-left: .2rem
+        }
+
+        .t-body {
+            padding: 1rem 1.2rem;
+            font-family: var(--mono);
+            font-size: .73rem;
+            line-height: 2
+        }
+
+        .t-ln {
+            display: flex;
+            align-items: baseline;
+            gap: .5em
+        }
+
+        .ps {
+            color: var(--blue)
+        }
+
+        .ps .usr {
+            color: var(--green)
+        }
+
+        .ps .sep {
+            color: var(--text-3)
+        }
+
+        .ps .dir {
+            color: var(--blue-l)
+        }
+
+        .tcmd {
+            color: var(--text)
+        }
+
+        .tout {
+            color: var(--text-2);
+            padding-left: 1.2rem;
+            display: block
+        }
+
+        .tout .k {
+            color: var(--orange)
+        }
+
+        .tout .v {
+            color: var(--text)
+        }
+
+        .tcur {
+            display: inline-block;
+            width: 7px;
+            height: .85em;
+            background: var(--blue);
+            animation: blink 1s infinite;
+            vertical-align: -.1em;
+        }
+
+        @keyframes blink {
+
+            0%,
+            49% {
+                opacity: 1
+            }
+
+            50%,
+            100% {
+                opacity: 0
+            }
+        }
+
+        /* ── HERO FLOATING CARDS ── */
+        .hero-floaters {
+            width: 290px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: .9rem;
+            padding-top: 2rem;
+        }
+
+        .float-card {
+            background: rgba(22, 27, 34, .8);
+            border: 1px solid rgba(48, 54, 61, .9);
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            backdrop-filter: blur(14px);
+            animation: floatCard var(--fc-d, 6s) ease-in-out var(--fc-delay, 0s) infinite alternate;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .04);
+            opacity: 0;
+            animation: cardIn .5s var(--fc-show, .8s) ease forwards, floatCard var(--fc-d, 7s) ease-in-out var(--fc-delay, 0s) infinite alternate;
+        }
+
+        @keyframes cardIn {
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes floatCard {
+            0% {
+                transform: translateY(0)
+            }
+
+            100% {
+                transform: translateY(var(--fc-y, -10px))
+            }
+        }
+
+        .fc-header {
+            display: flex;
+            align-items: center;
+            gap: .45rem;
+            font-family: var(--mono);
+            font-size: .59rem;
+            color: var(--text-3);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            margin-bottom: .55rem;
+        }
+
+        .fc-value {
+            font-family: var(--mono);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1;
+        }
+
+        .fc-sub {
+            font-family: var(--mono);
+            font-size: .6rem;
+            color: var(--text-3);
+            margin-top: .28rem;
+        }
+
+        .fc-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .28rem;
+            margin-top: .5rem
+        }
+
+        .fc-tag {
+            font-family: var(--mono);
+            font-size: .57rem;
+            padding: .1rem .42rem;
+            border-radius: 2rem;
+            background: rgba(47, 129, 247, .1);
+            border: 1px solid rgba(47, 129, 247, .22);
+            color: var(--blue-l);
+        }
+
+        .fc-tag.purple {
+            background: rgba(163, 113, 247, .1);
+            border-color: rgba(163, 113, 247, .22);
+            color: var(--purple);
+        }
+
+        .fc-tag.green {
+            background: rgba(63, 185, 80, .1);
+            border-color: rgba(63, 185, 80, .22);
+            color: var(--green);
+        }
+
+        .fc-tag.red {
+            background: rgba(248, 81, 73, .1);
+            border-color: rgba(248, 81, 73, .22);
+            color: var(--red);
+        }
+
+        /* ── SHARED LAYOUT ── */
+        .pw {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid var(--border-subtle);
+            margin: 0
+        }
+
+        .sec-lbl {
+            font-family: var(--mono);
+            font-size: .68rem;
+            color: var(--blue);
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            margin-bottom: .7rem;
+        }
+
+        .sec-lbl::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 1px;
+            background: var(--blue);
+        }
+
+        h2.sec-t {
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            font-weight: 700;
+            letter-spacing: -.02em;
+            color: var(--white);
+            margin-bottom: .9rem;
+        }
+
+        .sec-d {
+            color: var(--text-2);
+            font-size: 1rem;
+            max-width: 580px;
+            line-height: 1.75;
+        }
+
+        /* ── ABOUT ── */
+        #about {
+            padding: 6rem 0
+        }
+
+        .about-g {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 5rem;
+            align-items: start;
+        }
+
+        .about-body p {
+            color: var(--text-2);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem
+        }
+
+        .about-body strong {
+            color: var(--text);
+            font-weight: 600
+        }
+
+        .about-body a {
+            color: var(--blue-l);
+            text-decoration: none
+        }
+
+        .about-body a:hover {
+            text-decoration: underline
+        }
+
+        .stat-g {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .7rem;
+            margin-top: 2rem
+        }
+
+        .stat-c {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--r);
+            padding: 1rem 1.2rem;
+            position: relative;
+            overflow: hidden;
+            transition: border-color .2s, transform .2s, box-shadow .2s;
+        }
+
+        .stat-c:hover {
+            border-color: var(--blue-d);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .35)
+        }
+
+        .stat-c::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--blue), transparent);
+        }
+
+        .stat-n {
+            font-family: var(--mono);
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: var(--blue-l);
+            line-height: 1
+        }
+
+        .stat-l {
+            font-family: var(--mono);
+            font-size: .62rem;
+            color: var(--text-3);
+            margin-top: .35rem;
+            letter-spacing: .05em
+        }
+
+        .sk-g {
+            margin-bottom: 1.35rem
+        }
+
+        .sk-lbl {
+            font-family: var(--mono);
+            font-size: .63rem;
+            color: var(--text-3);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            margin-bottom: .52rem;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .38rem
+        }
+
+        .tag {
+            font-family: var(--mono);
+            font-size: .67rem;
+            padding: .2rem .68rem;
+            border-radius: 2rem;
+            background: var(--bg-overlay);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-2);
+            transition: all .15s;
+        }
+
+        .tag:hover {
+            border-color: var(--blue);
+            color: var(--blue-l);
+            background: rgba(47, 129, 247, .07)
+        }
+
+        .tag.ai {
+            background: rgba(163, 113, 247, .07);
+            border-color: rgba(163, 113, 247, .22);
+            color: var(--purple);
+        }
+
+        .tag.ai:hover {
+            border-color: var(--purple);
+            background: rgba(163, 113, 247, .15)
+        }
+
+        /* ── AI SECTION ── */
+        #ai {
+            padding: 6rem 0
+        }
+
+        .ai-g {
+            display: grid;
+            grid-template-columns: 1fr 1.25fr;
+            gap: 4rem;
+            align-items: start;
+            margin-top: 2.5rem;
+        }
+
+        .ai-intro p {
+            color: var(--text-2);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem
+        }
+
+        .ai-intro strong {
+            color: var(--text)
+        }
+
+        .ai-hl {
+            background: linear-gradient(135deg, rgba(163, 113, 247, .07), rgba(47, 129, 247, .07));
+            border: 1px solid rgba(163, 113, 247, .22);
+            border-radius: 8px;
+            padding: 1.15rem 1.4rem;
+            margin-bottom: .85rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-hl::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--purple), var(--blue));
+        }
+
+        .ai-hl p {
+            color: var(--text-2);
+            font-size: .88rem;
+            line-height: 1.7;
+            margin: 0
+        }
+
+        .ai-hl strong {
+            color: var(--purple)
+        }
+
+        .ai-hl.blue {
+            background: linear-gradient(135deg, rgba(47, 129, 247, .07), rgba(163, 113, 247, .07));
+            border-color: rgba(47, 129, 247, .22);
+        }
+
+        .ai-hl.blue::before {
+            background: linear-gradient(90deg, var(--blue), var(--purple))
+        }
+
+        .ai-hl.blue strong {
+            color: var(--blue-l)
+        }
+
+        .ai-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .85rem;
+        }
+
+        .ai-card {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 1.2rem;
+            transition: all .2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            opacity: 0;
+            transition: opacity .2s;
+        }
+
+        .ai-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 36px rgba(0, 0, 0, .45)
+        }
+
+        .ai-card:hover::after {
+            opacity: 1
+        }
+
+        .ai-card.llm {
+            border-color: rgba(163, 113, 247, .2)
+        }
+
+        .ai-card.llm::after {
+            background: linear-gradient(90deg, var(--purple), var(--blue))
+        }
+
+        .ai-card.llm:hover {
+            border-color: rgba(163, 113, 247, .45)
+        }
+
+        .ai-card.rag {
+            border-color: rgba(47, 129, 247, .2)
+        }
+
+        .ai-card.rag::after {
+            background: linear-gradient(90deg, var(--blue), var(--blue-l))
+        }
+
+        .ai-card.rag:hover {
+            border-color: rgba(47, 129, 247, .45)
+        }
+
+        .ai-card.ml {
+            border-color: rgba(63, 185, 80, .2)
+        }
+
+        .ai-card.ml::after {
+            background: linear-gradient(90deg, var(--green), var(--blue-l))
+        }
+
+        .ai-card.ml:hover {
+            border-color: rgba(63, 185, 80, .45)
+        }
+
+        .ai-card.agent {
+            border-color: rgba(248, 81, 73, .2)
+        }
+
+        .ai-card.agent::after {
+            background: linear-gradient(90deg, var(--red), var(--orange))
+        }
+
+        .ai-card.agent:hover {
+            border-color: rgba(248, 81, 73, .45)
+        }
+
+        .ai-card-icon {
+            font-size: 1.5rem;
+            margin-bottom: .65rem
+        }
+
+        .ai-card-title {
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: .38rem
+        }
+
+        .ai-card-desc {
+            font-size: .78rem;
+            color: var(--text-2);
+            line-height: 1.6;
+            margin-bottom: .65rem
+        }
+
+        .ai-card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .3rem
+        }
+
+        .ai-pill {
+            font-family: var(--mono);
+            font-size: .58rem;
+            padding: .1rem .42rem;
+            border-radius: 2rem;
+            background: var(--bg-overlay);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-3);
+        }
+
+        /* ── EXPERIENCE ── */
+        #experience {
+            padding: 6rem 0
+        }
+
+        .exp-list {
+            display: flex;
+            flex-direction: column;
+            margin-top: 2.5rem
+        }
+
+        .exp-it {
+            display: grid;
+            grid-template-columns: 155px 1fr;
+            gap: 0 2.5rem;
+            position: relative;
+            padding-bottom: 2.5rem;
+        }
+
+        .exp-it:last-child {
+            padding-bottom: 0
+        }
+
+        .exp-it::after {
+            content: '';
+            position: absolute;
+            left: 154px;
+            top: 10px;
+            bottom: 0;
+            width: 1px;
+            background: var(--border-subtle);
+        }
+
+        .exp-it:last-child::after {
+            display: none
+        }
+
+        .exp-dt {
+            font-family: var(--mono);
+            font-size: .66rem;
+            color: var(--text-3);
+            text-align: right;
+            padding-top: .1rem;
+            line-height: 1.6;
+        }
+
+        .exp-node {
+            position: absolute;
+            left: 148px;
+            top: 7px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .exp-node.blue {
+            border-color: var(--blue)
+        }
+
+        .exp-node.blue::after {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--blue)
+        }
+
+        .exp-node.red {
+            border-color: var(--red)
+        }
+
+        .exp-node.red::after {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--red)
+        }
+
+        .exp-node.purple {
+            border-color: var(--purple)
+        }
+
+        .exp-node.purple::after {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--purple)
+        }
+
+        .exp-node.green {
+            border-color: var(--green)
+        }
+
+        .exp-node.green::after {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--green)
+        }
+
+        .exp-node.orange {
+            border-color: var(--orange)
+        }
+
+        .exp-node.orange::after {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--orange)
+        }
+
+        .exp-body {
+            padding-left: 1.5rem
+        }
+
+        .exp-role {
+            font-size: .98rem;
+            font-weight: 700;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: .5rem;
+            margin-bottom: .2rem;
+        }
+
+        .bdg {
+            font-family: var(--mono);
+            font-size: .57rem;
+            padding: .14rem .52rem;
+            border-radius: 2rem;
+            font-weight: 500;
+        }
+
+        .bdg-blue {
+            background: rgba(47, 129, 247, .14);
+            color: var(--blue-l);
+            border: 1px solid rgba(47, 129, 247, .28)
+        }
+
+        .bdg-red {
+            background: rgba(248, 81, 73, .11);
+            color: var(--red);
+            border: 1px solid rgba(248, 81, 73, .28)
+        }
+
+        .bdg-green {
+            background: rgba(63, 185, 80, .11);
+            color: var(--green);
+            border: 1px solid rgba(63, 185, 80, .28)
+        }
+
+        .bdg-purple {
+            background: rgba(163, 113, 247, .11);
+            color: var(--purple);
+            border: 1px solid rgba(163, 113, 247, .28)
+        }
+
+        .bdg-orange {
+            background: rgba(210, 153, 34, .11);
+            color: var(--orange);
+            border: 1px solid rgba(210, 153, 34, .28)
+        }
+
+        .exp-co {
+            font-family: var(--mono);
+            font-size: .74rem;
+            color: var(--blue-l);
+            margin-bottom: .55rem;
+        }
+
+        .exp-co a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        .exp-co a:hover {
+            text-decoration: underline
+        }
+
+        .exp-desc {
+            color: var(--text-2);
+            font-size: .88rem;
+            line-height: 1.72;
+            margin-bottom: .65rem
+        }
+
+        .exp-bullets {
+            list-style: none;
+            margin-bottom: .7rem
+        }
+
+        .exp-bullets li {
+            color: var(--text-2);
+            font-size: .85rem;
+            line-height: 1.65;
+            padding: .18rem 0 .18rem 1.1rem;
+            position: relative;
+        }
+
+        .exp-bullets li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: var(--blue)
+        }
+
+        .exp-bullets li strong {
+            color: var(--text)
+        }
+
+        .exp-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .35rem
+        }
+
+        .exp-tag {
+            font-family: var(--mono);
+            font-size: .61rem;
+            padding: .13rem .52rem;
+            border-radius: 2rem;
+            background: var(--bg-overlay);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-3);
+        }
+
+        /* ── EDUCATION ── */
+        #education {
+            padding: 6rem 0
+        }
+
+        .edu-g {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 1rem;
+            margin-top: 2.5rem;
+        }
+
+        .edu-c {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all .2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .edu-c::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+        }
+
+        .edu-c.cs::before {
+            background: linear-gradient(90deg, var(--blue), var(--blue-l))
+        }
+
+        .edu-c.mit::before {
+            background: linear-gradient(90deg, var(--red), var(--orange))
+        }
+
+        .edu-c.cfi::before {
+            background: linear-gradient(90deg, var(--green), var(--blue-l))
+        }
+
+        .edu-c.harvard::before {
+            background: linear-gradient(90deg, #a51c30, var(--purple))
+        }
+
+        .edu-c:hover {
+            border-color: var(--blue-d);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .35)
+        }
+
+        .edu-logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            background: var(--bg-overlay);
+            border: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .edu-school {
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: .22rem
+        }
+
+        .edu-degree {
+            font-family: var(--mono);
+            font-size: .72rem;
+            color: var(--blue-l);
+            margin-bottom: .45rem
+        }
+
+        .edu-meta {
+            font-family: var(--mono);
+            font-size: .63rem;
+            color: var(--text-3);
+            margin-bottom: .8rem;
+            line-height: 1.65
+        }
+
+        .edu-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .32rem
+        }
+
+        .edu-skill {
+            font-family: var(--mono);
+            font-size: .59rem;
+            padding: .11rem .45rem;
+            border-radius: 2rem;
+            background: var(--bg-overlay);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-3);
+        }
+
+        .edu-link {
+            display: inline-flex;
+            align-items: center;
+            gap: .3rem;
+            font-family: var(--mono);
+            font-size: .62rem;
+            color: var(--blue-l);
+            text-decoration: none;
+            margin-top: .9rem;
+        }
+
+        .edu-link:hover {
+            text-decoration: underline
+        }
+
+        /* ── PROJECTS ── */
+        #projects {
+            padding: 6rem 0
+        }
+
+        .pin-hdr {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            font-family: var(--mono);
+            font-size: .68rem;
+            color: var(--text-2);
+            margin-bottom: 1.2rem;
+        }
+
+        .repo-g {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1rem;
+        }
+
+        .rc {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.4rem;
+            display: flex;
+            flex-direction: column;
+            transition: all .2s;
+        }
+
+        .rc:hover {
+            border-color: var(--blue-d);
+            box-shadow: 0 0 0 1px var(--blue-d);
+            transform: translateY(-2px)
+        }
+
+        .rc.feat {
+            grid-column: 1/-1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            border-color: var(--blue-d);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rc.feat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--blue), var(--red));
+        }
+
+        .rc-hdr {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: .7rem
+        }
+
+        .rc-links {
+            display: flex;
+            gap: .4rem;
+            flex-wrap: wrap
+        }
+
+        .rc-lnk {
+            font-family: var(--mono);
+            font-size: .63rem;
+            color: var(--text-2);
+            text-decoration: none;
+            padding: .22rem .58rem;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--r);
+            transition: all .15s;
+            display: inline-flex;
+            align-items: center;
+            gap: .25rem;
+        }
+
+        .rc-lnk:hover {
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .rc-name {
+            font-family: var(--mono);
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--blue-l);
+            margin-bottom: .45rem
+        }
+
+        .rc-name span {
+            color: var(--text-2);
+            font-weight: 400
+        }
+
+        .rc-desc {
+            color: var(--text-2);
+            font-size: .87rem;
+            line-height: 1.65;
+            flex: 1;
+            margin-bottom: .9rem
+        }
+
+        .rc-meta {
+            display: flex;
+            align-items: center;
+            gap: .9rem;
+            font-family: var(--mono);
+            font-size: .64rem;
+            color: var(--text-3);
+            margin-top: auto;
+        }
+
+        .rc-lang {
+            display: flex;
+            align-items: center;
+            gap: .3rem
+        }
+
+        .ld {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0
+        }
+
+        .ld-py {
+            background: #3572A5
+        }
+
+        .ld-cpp {
+            background: #f34b7d
+        }
+
+        .code-box {
+            background: var(--bg-inset);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            overflow: hidden
+        }
+
+        .code-bar {
+            background: var(--bg-overlay);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: .4rem .85rem;
+            font-family: var(--mono);
+            font-size: .62rem;
+            color: var(--text-3);
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+        }
+
+        .code-bar .fn {
+            color: var(--text-2)
+        }
+
+        .code-box pre {
+            padding: .85rem 1rem;
+            font-family: var(--mono);
+            font-size: .69rem;
+            line-height: 1.8;
+            overflow-x: auto
+        }
+
+        .ck {
+            color: #ff7b72
+        }
+
+        .cf {
+            color: #d2a8ff
+        }
+
+        .cs {
+            color: #a5d6ff
+        }
+
+        .cc {
+            color: #8b949e
+        }
+
+        .cv {
+            color: #ffa657
+        }
+
+        .ccl {
+            color: #ffa657
+        }
+
+        /* ── WRITING ── */
+        #writing {
+            padding: 6rem 0
+        }
+
+        .art-g {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 1rem;
+        }
+
+        .art-c {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.3rem;
+            transition: all .2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .art-c:hover {
+            border-color: var(--blue-d);
+            transform: translateY(-2px)
+        }
+
+        .art-dt {
+            font-family: var(--mono);
+            font-size: .62rem;
+            color: var(--text-3);
+            margin-bottom: .7rem
+        }
+
+        .art-tag {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: .59rem;
+            padding: .14rem .52rem;
+            border-radius: 2rem;
+            background: rgba(47, 129, 247, .1);
+            color: var(--blue);
+            border: 1px solid rgba(47, 129, 247, .2);
+            margin-bottom: .7rem;
+        }
+
+        .art-t {
+            font-size: .98rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: .45rem;
+            line-height: 1.35
+        }
+
+        .art-ex {
+            color: var(--text-2);
+            font-size: .87rem;
+            line-height: 1.65;
+            flex: 1;
+            margin-bottom: .9rem
+        }
+
+        .art-lnk {
+            font-family: var(--mono);
+            font-size: .66rem;
+            color: var(--blue-l);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: .3rem;
+            margin-top: auto;
+        }
+
+        .art-lnk:hover {
+            text-decoration: underline
+        }
+
+        .art-lnk::after {
+            content: '↗'
+        }
+
+        .nl {
+            margin-top: 2rem;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 2rem;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nl::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(47, 129, 247, .05), transparent 60%);
+            pointer-events: none;
+        }
+
+        .nl-t {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: .3rem
+        }
+
+        .nl-s {
+            font-family: var(--mono);
+            font-size: .67rem;
+            color: var(--text-2)
+        }
+
+        /* ── CONTACT ── */
+        #contact {
+            padding: 6rem 0
+        }
+
+        .cont-g {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start
+        }
+
+        .c-links {
+            display: flex;
+            flex-direction: column;
+            gap: .6rem;
+            margin-top: 1.5rem
+        }
+
+        .cl {
+            display: flex;
+            align-items: center;
+            gap: .9rem;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .8rem 1rem;
+            text-decoration: none;
+            color: var(--text);
+            transition: all .18s;
+        }
+
+        .cl:hover {
+            border-color: var(--blue-d);
+            background: var(--bg-overlay);
+            transform: translateX(5px)
+        }
+
+        .cl-ico {
+            width: 30px;
+            height: 30px;
+            border-radius: var(--r);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .85rem;
+            background: var(--bg-overlay);
+            flex-shrink: 0;
+        }
+
+        .cl-lbl {
+            font-family: var(--mono);
+            font-size: .62rem;
+            color: var(--text-3);
+            margin-bottom: .1rem
+        }
+
+        .cl-val {
+            font-size: .87rem;
+            color: var(--text)
+        }
+
+        .form-c {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-c::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--blue), var(--purple));
+        }
+
+        .form-t {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1.2rem
+        }
+
+        .fg {
+            margin-bottom: .9rem
+        }
+
+        .fg label {
+            display: block;
+            font-family: var(--mono);
+            font-size: .64rem;
+            color: var(--text-2);
+            margin-bottom: .38rem;
+            letter-spacing: .04em;
+        }
+
+        .fg input,
+        .fg textarea {
+            width: 100%;
+            background: var(--bg-inset);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            color: var(--text);
+            font-family: var(--mono);
+            font-size: .76rem;
+            padding: .6rem .85rem;
+            outline: none;
+            resize: vertical;
+            transition: border-color .15s, box-shadow .15s;
+        }
+
+        .fg input:focus,
+        .fg textarea:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(47, 129, 247, .1);
+        }
+
+        .fg input::placeholder,
+        .fg textarea::placeholder {
+            color: var(--text-3)
+        }
+
+        .fg-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .75rem
+        }
+
+        .form-ok {
+            display: none;
+            margin-top: .7rem;
+            padding: .6rem .85rem;
+            font-family: var(--mono);
+            font-size: .7rem;
+            background: rgba(63, 185, 80, .08);
+            border: 1px solid rgba(63, 185, 80, .2);
+            color: var(--green);
+            border-radius: var(--r);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid var(--border-subtle);
+            padding: 1.75rem 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .fc {
+            font-family: var(--mono);
+            font-size: .64rem;
+            color: var(--text-3)
+        }
+
+        .fl {
+            display: flex;
+            gap: 1.2rem
+        }
+
+        .fl a {
+            font-family: var(--mono);
+            font-size: .64rem;
+            color: var(--text-3);
+            text-decoration: none;
+            transition: color .15s
+        }
+
+        .fl a:hover {
+            color: var(--text)
+        }
+
+        /* ── CONTACT LINK ACCENTS ── */
+        .cl-wa:hover {
+            border-color: #25d366;
+            background: rgba(37, 211, 102, .06)
+        }
+
+        .cl-wa:hover .cl-ico {
+            color: #25d366
+        }
+
+        .cl-tg:hover {
+            border-color: #2aabee;
+            background: rgba(42, 171, 238, .06)
+        }
+
+        .cl-tg:hover .cl-ico {
+            color: #2aabee
+        }
+
+        .cl-ico svg {
+            display: block
+        }
+
+        /* ── FLOATING CHAT WIDGET ── */
+        .chat-widget {
+            position: fixed;
+            bottom: 1.75rem;
+            right: 1.75rem;
+            z-index: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: .65rem;
+        }
+
+        .chat-bubble {
+            display: flex;
+            align-items: center;
+            gap: .65rem;
+            padding: .55rem .9rem .55rem .7rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-family: var(--mono);
+            font-size: .7rem;
+            font-weight: 500;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .45);
+            border: 1px solid rgba(255, 255, 255, .07);
+            transition: transform .18s, box-shadow .18s;
+            white-space: nowrap;
+        }
+
+        .chat-bubble:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .55)
+        }
+
+        .chat-bubble.wa {
+            background: rgba(18, 140, 67, .88);
+            color: #fff;
+        }
+
+        .chat-bubble.tg {
+            background: rgba(33, 150, 243, .88);
+            color: #fff;
+        }
+
+        .chat-bubble svg {
+            flex-shrink: 0
+        }
+
+        .chat-label {
+            letter-spacing: .02em
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(14px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity .55s ease, transform .55s ease;
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: none
+        }
+
+        /* ── RESPONSIVE ── */
+        @media(max-width: 1100px) {
+            .hero-floaters {
+                display: none
+            }
+        }
+
+        @media(max-width: 900px) {
+            #nav {
+                padding: 0 1rem
+            }
+
+            .nav-links {
+                display: none
+            }
+
+            #hero,
+            .pw {
+                padding-left: 1.25rem;
+                padding-right: 1.25rem
+            }
+
+            #hero {
+                flex-direction: column;
+                gap: 0
+            }
+
+            .about-g,
+            .cont-g,
+            .ai-g {
+                grid-template-columns: 1fr;
+                gap: 3rem
+            }
+
+            .exp-it {
+                grid-template-columns: 1fr
+            }
+
+            .exp-it::after,
+            .exp-node {
+                display: none
+            }
+
+            .exp-body {
+                padding-left: 0
+            }
+
+            .rc.feat {
+                grid-template-columns: 1fr
+            }
+
+            .nl {
+                grid-template-columns: 1fr
+            }
+
+            .ai-grid {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+
+        @media(max-width: 600px) {
+
+            .repo-g,
+            .art-g,
+            .edu-g {
+                grid-template-columns: 1fr
+            }
+
+            .fg-row {
+                grid-template-columns: 1fr
+            }
+
+            .ai-grid {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Fixed background blobs -->
+    <div class="site-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- NAV -->
+    <nav id="nav">
+        <a href="#" class="nav-logo">
+            <div class="nav-dot"></div>BBS
+        </a>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#ai">AI &amp; ML</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#writing">Writing</a></li>
+        </ul>
+        <a href="#contact" class="nav-cta">Contact me</a>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero">
+        <div class="hero-inner">
+            <div class="hero-avatar">
+                <img src="https://yt3.ggpht.com/KicMONvuXsCQgxfB2GcDiA9ucWL1ePOt3sRi2c3YLGX3F4n-86DZJWu6yZdunakXzEBIV7umLH0=s88-c-k-c0x00ffffff-no-rj"
+                    alt="Bertin Balouki SIMYELI" />
+            </div>
+            <div class="hero-badge">
+                <div class="badge-dot"></div>
+                Available for professional engagements &amp; collaborations
+            </div>
+
+            <div class="hero-name-wrap">
+                <span class="hero-name-first">BERTIN</span>
+                <span class="hero-name-last">BALOUKI <span class="hero-name-accent">SIMYELI</span></span>
+                <div class="hero-role-bar">
+                    <div class="hero-role-item">
+                        <div class="role-dot blue"></div>
+                        <span class="role-blue">Quant Developer</span>
+                    </div>
+                    <span class="hero-role-sep">·</span>
+                    <div class="hero-role-item">
+                        <div class="role-dot red"></div>
+                        <span class="role-red">Systems Engineer</span>
+                    </div>
+                    <span class="hero-role-sep">·</span>
+                    <div class="hero-role-item">
+                        <div class="role-dot purple"></div>
+                        <span class="role-purple">AI Engineer</span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="hero-sub">
+                Building high-performance trading infrastructure and intelligent AI systems at the intersection of
+                <strong>financial markets</strong>, <strong>low-latency computing</strong>, and
+                <strong>large language models</strong>. CTO at two companies. Open-source author with 7k+ downloads.
+                $56M+ in trading volume.
+            </p>
+
+            <div class="hero-actions">
+                <a href="#projects" class="btn btn-blue">Open-source work</a>
+                <a href="#ai" class="btn btn-purple">AI &amp; ML stack</a>
+                <a href="https://github.com/bbalouki" target="_blank" class="btn btn-ghost">GitHub ↗</a>
+                <a href="#contact" class="btn btn-red">Get in touch</a>
+            </div>
+
+            <div class="hero-chips">
+                <span class="chip">Python 3.12+</span>
+                <span class="chip">C++20</span>
+                <span class="chip">LlamaIndex</span>
+                <span class="chip">RAG Systems</span>
+                <span class="chip">Gemini API</span>
+                <span class="chip">MetaTrader 5</span>
+                <span class="chip">Nasdaq ITCH 5.0</span>
+                <span class="chip">HFT Systems</span>
+                <span class="chip">Harvard CS50x</span>
+                <span class="chip">West Africa 🌍</span>
+            </div>
+
+            <div class="hero-term">
+                <div class="term">
+                    <div class="t-bar">
+                        <div class="td r"></div>
+                        <div class="td y"></div>
+                        <div class="td g"></div>
+                        <span class="t-lbl">bash , ~/bbs-ai</span>
+                    </div>
+                    <div class="t-body">
+                        <div class="t-ln">
+                            <span class="ps"><span class="usr">bertin</span><span class="sep">@</span><span
+                                    class="dir">bbs-ai</span><span class="sep">&nbsp;~&nbsp;</span></span>
+                            <span class="tcmd">pip show bbstrader</span>
+                        </div>
+                        <span class="tout"><span class="k">Name:</span>&nbsp;<span class="v">bbstrader</span></span>
+                        <span class="tout"><span class="k">Summary:</span>&nbsp;<span class="v">Investment &amp; Trading
+                                Toolkit, Python &amp; C++</span></span>
+                        <span class="tout"><span class="k">Author:</span>&nbsp;<span class="v">Bertin Balouki
+                                SIMYELI</span></span>
+                        <div class="t-ln" style="margin-top:.35rem">
+                            <span class="ps"><span class="usr">bertin</span><span class="sep">@</span><span
+                                    class="dir">bbs-ai</span><span class="sep">&nbsp;~&nbsp;</span></span>
+                            <span class="tcmd">python -c <span style="color:#a5d6ff">"from llama_index.core import
+                                    VectorStoreIndex"</span><span class="tcur"></span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating stat cards (visible on wide screens) -->
+        <div class="hero-floaters">
+            <div class="float-card" style="--fc-d:7s;--fc-y:-14px;--fc-show:.9s">
+                <div class="fc-header">🤖 &nbsp;AI Stack</div>
+                <div class="fc-tags">
+                    <span class="fc-tag purple">LlamaIndex</span>
+                    <span class="fc-tag purple">RAG</span>
+                    <span class="fc-tag">Gemini API</span>
+                    <span class="fc-tag">OpenAI</span>
+                    <span class="fc-tag green">Agents</span>
+                </div>
+            </div>
+            <div class="float-card" style="--fc-d:9s;--fc-delay:-3s;--fc-y:-11px;--fc-show:1.1s">
+                <div class="fc-header">📦 &nbsp;PyPI Downloads</div>
+                <div class="fc-value">7,000+</div>
+                <div class="fc-sub">bbstrader · itchfeed</div>
+            </div>
+            <div class="float-card" style="--fc-d:6s;--fc-delay:-1.5s;--fc-y:-16px;--fc-show:1.3s">
+                <div class="fc-header">📈 &nbsp;Trading Volume</div>
+                <div class="fc-value">$56M+</div>
+                <div class="fc-sub">JustMarkets · 316 lots</div>
+            </div>
+            <div class="float-card" style="--fc-d:8s;--fc-delay:-4s;--fc-y:-13px;--fc-show:1.5s">
+                <div class="fc-header">🏛️ &nbsp;Leadership</div>
+                <div class="fc-value">2× CTO</div>
+                <div class="fc-sub">Movable Games · Forward Outlook</div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ABOUT -->
+    <section id="about">
+        <div class="pw">
+            <div class="about-g">
+                <div class="reveal">
+                    <p class="sec-lbl">About</p>
+                    <h2 class="sec-t">Precision-engineered<br>for financial markets.</h2>
+                    <div class="about-body">
+                        <p>I'm <strong>Bertin Balouki SIMYELI</strong>, a quantitative developer, systems engineer,
+                            and AI architect with roots in <strong>West Africa</strong>. I build institutional-grade
+                            trading infrastructure and intelligent AI systems at the intersection of performance and
+                            correctness.</p>
+                        <p>Since 2020, I've operated as a Business Partner and Introducing Broker with
+                            <strong>JustMarkets</strong>, driving over <strong>$56 million in trading volume</strong>
+                            across 316+ standard lots. This real-world market exposure directly informs the systems I
+                            engineer , from HFT parsers to sentiment-driven signal generation.
+                        </p>
+                        <p>My technical practice spans <strong>Python &amp; C++20</strong> for high-performance
+                            trading systems, and <strong>LlamaIndex, RAG pipelines, and multi-agent AI</strong> for
+                            intelligent enterprise automation. I've led engineering teams as CTO at two companies and
+                            built open-source tools trusted by traders worldwide.</p>
+                        <p>I run <strong>TheFinTech Insights Digest</strong>, a newsletter exploring distributed
+                            systems, fintech infrastructure, and the evolving landscape of algorithmic markets. I also
+                            offer <a href="mailto:bertin@bbs-trading.com">professional consulting services</a> for
+                            custom trading systems, risk models, and AI data pipelines.</p>
+                    </div>
+                    <div class="stat-g">
+                        <div class="stat-c">
+                            <div class="stat-n">7k+</div>
+                            <div class="stat-l">PyPI Downloads</div>
+                        </div>
+                        <div class="stat-c">
+                            <div class="stat-n">$56M+</div>
+                            <div class="stat-l">Trading Volume</div>
+                        </div>
+                        <div class="stat-c">
+                            <div class="stat-n">2×</div>
+                            <div class="stat-l">CTO Roles</div>
+                        </div>
+                        <div class="stat-c">
+                            <div class="stat-n">5+</div>
+                            <div class="stat-l">Open Source Repos</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal" style="transition-delay:.12s">
+                    <div class="about-photo-wrap">
+                        <div class="about-photo">
+                            <img src="https://yt3.ggpht.com/KicMONvuXsCQgxfB2GcDiA9ucWL1ePOt3sRi2c3YLGX3F4n-86DZJWu6yZdunakXzEBIV7umLH0=s88-c-k-c0x00ffffff-no-rj"
+                                alt="Bertin Balouki SIMYELI" />
+                        </div>
+                        <div class="about-photo-info">
+                            <div class="about-photo-name">Bertin Balouki SIMYELI</div>
+                            <div class="about-photo-title">Quant Developer · AI Engineer · 2× CTO</div>
+                        </div>
+                    </div>
+                    <div class="sk-g">
+                        <div class="sk-lbl">Languages &amp; Runtimes</div>
+                        <div class="tags">
+                            <span class="tag">Python 3.12+</span>
+                            <span class="tag">C++20</span>
+                            <span class="tag">Bash / Shell</span>
+                            <span class="tag">SQL</span>
+                        </div>
+                    </div>
+                    <div class="sk-g">
+                        <div class="sk-lbl">AI &amp; Machine Learning</div>
+                        <div class="tags">
+                            <span class="tag ai">LlamaIndex</span>
+                            <span class="tag ai">RAG Pipelines</span>
+                            <span class="tag ai">Gemini API</span>
+                            <span class="tag ai">OpenAI API</span>
+                            <span class="tag ai">TensorFlow</span>
+                            <span class="tag ai">scikit-learn</span>
+                            <span class="tag ai">Sentiment NLP</span>
+                            <span class="tag ai">Reinforcement Learning</span>
+                            <span class="tag ai">Multi-Agent Systems</span>
+                        </div>
+                    </div>
+                    <div class="sk-g">
+                        <div class="sk-lbl">Frameworks &amp; Libraries</div>
+                        <div class="tags">
+                            <span class="tag">NumPy / Pandas</span>
+                            <span class="tag">pybind11</span>
+                            <span class="tag">CMake / vcpkg</span>
+                            <span class="tag">FastAPI</span>
+                        </div>
+                    </div>
+                    <div class="sk-g">
+                        <div class="sk-lbl">Trading &amp; Finance</div>
+                        <div class="tags">
+                            <span class="tag">MetaTrader 5</span>
+                            <span class="tag">Nasdaq ITCH 5.0</span>
+                            <span class="tag">Backtesting</span>
+                            <span class="tag">VaR / CVaR</span>
+                            <span class="tag">Portfolio Optimization</span>
+                        </div>
+                    </div>
+                    <div class="sk-g">
+                        <div class="sk-lbl">Infrastructure &amp; Cloud</div>
+                        <div class="tags">
+                            <span class="tag">Google Cloud Platform</span>
+                            <span class="tag">DigitalOcean</span>
+                            <span class="tag">GitHub Actions</span>
+                            <span class="tag">ReadTheDocs</span>
+                            <span class="tag">PyPI</span>
+                            <span class="tag">Linux</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- AI & ML SECTION -->
+    <section id="ai">
+        <div class="pw">
+            <p class="sec-lbl reveal">Machine Intelligence</p>
+            <h2 class="sec-t reveal">AI &amp; Machine Learning</h2>
+            <p class="sec-d reveal">Architecting intelligent systems , from RAG pipelines and LLM integrations to
+                reinforcement learning and multi-agent orchestration , applied to real-world financial and enterprise
+                use cases.</p>
+
+            <div class="ai-g">
+                <div class="reveal">
+                    <div class="ai-intro">
+                        <p>AI is not just a skill set , it's the lens through which I approach modern systems
+                            engineering. From architecting <strong>RAG pipelines</strong> that automate business
+                            diagnostics to deploying <strong>multi-modal LLM agents</strong> for enterprise SaaS
+                            platforms, I bridge the gap between cutting-edge research and production-grade
+                            deployment.</p>
+                        <p>My AI work spans financial markets (sentiment-driven trading signals, reinforcement
+                            learning strategies), edtech (Agent-Based Cognition systems), and enterprise automation
+                            (document AI, intelligent booking, growth analytics).</p>
+                    </div>
+                    <div class="ai-hl">
+                        <p><strong>Forward Outlook Ltd:</strong> Architected a specialized Retrieval-Augmented
+                            Generation system using LlamaIndex to automate "Growth Gap" diagnostics , synthesizing
+                            complex multi-source business data into structured, actionable intelligence for the BGA
+                            networking community.</p>
+                    </div>
+                    <div class="ai-hl blue">
+                        <p><strong style="color:var(--blue-l)">Movable Games:</strong> Leading development of a
+                            neuroscience-backed educational platform using Agent-Based Cognition , mathematical
+                            operators become autonomous agents, leveraging the brain's natural capacity for procedural
+                            memory and narrative retention over rote memorization.</p>
+                    </div>
+                    <div class="ai-hl"
+                        style="margin-top:.85rem;border-color:rgba(63,185,80,.25);background:linear-gradient(135deg,rgba(63,185,80,.06),rgba(47,129,247,.06))">
+                        <p><strong style="color:var(--green)">bbstrader:</strong> Integrated <strong
+                                style="color:var(--text)">SentimentAnalyzer</strong> NLP models into the flagship
+                            open-source trading toolkit for ML-driven signal generation , combining Python's
+                            analytical depth with C++ execution speed via a bidirectional pybind11 bridge.</p>
+                    </div>
+                </div>
+
+                <div class="reveal" style="transition-delay:.1s">
+                    <div class="ai-grid">
+                        <div class="ai-card llm">
+                            <div class="ai-card-icon">🧠</div>
+                            <div class="ai-card-title">LLM Integration</div>
+                            <div class="ai-card-desc">Production integration of frontier language models for
+                                intelligent automation, document processing, booking AI, and real-time analytics
+                                pipelines.</div>
+                            <div class="ai-card-tags">
+                                <span class="ai-pill">Gemini API</span>
+                                <span class="ai-pill">OpenAI API</span>
+                                <span class="ai-pill">Claude API</span>
+                                <span class="ai-pill">Multimodal</span>
+                            </div>
+                        </div>
+
+                        <div class="ai-card rag">
+                            <div class="ai-card-icon">🔍</div>
+                            <div class="ai-card-title">RAG Systems</div>
+                            <div class="ai-card-desc">Retrieval-Augmented Generation pipelines for intelligent data
+                                synthesis, business diagnostics, document AI, and enterprise knowledge
+                                management.</div>
+                            <div class="ai-card-tags">
+                                <span class="ai-pill">LlamaIndex</span>
+                                <span class="ai-pill">Vector DBs</span>
+                                <span class="ai-pill">Document AI</span>
+                                <span class="ai-pill">Embeddings</span>
+                            </div>
+                        </div>
+
+                        <div class="ai-card ml">
+                            <div class="ai-card-icon">📊</div>
+                            <div class="ai-card-title">ML &amp; Quant</div>
+                            <div class="ai-card-desc">Machine learning applied to financial markets , sentiment
+                                analysis, signal generation, portfolio optimization, risk modeling, and RL
+                                strategies.</div>
+                            <div class="ai-card-tags">
+                                <span class="ai-pill">TensorFlow</span>
+                                <span class="ai-pill">scikit-learn</span>
+                                <span class="ai-pill">NLP</span>
+                                <span class="ai-pill">Reinforcement Learning</span>
+                            </div>
+                        </div>
+
+                        <div class="ai-card agent">
+                            <div class="ai-card-icon">🤖</div>
+                            <div class="ai-card-title">Agent Systems</div>
+                            <div class="ai-card-desc">Multi-agent orchestration and autonomous systems for complex
+                                workflow automation , from financial data pipelines to neuroscience-backed edtech
+                                platforms.</div>
+                            <div class="ai-card-tags">
+                                <span class="ai-pill">Multi-Agent</span>
+                                <span class="ai-pill">Autonomous Workflows</span>
+                                <span class="ai-pill">Agent Cognition</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+        <div class="pw">
+            <p class="sec-lbl reveal">Experience</p>
+            <h2 class="sec-t reveal">Professional History</h2>
+            <p class="sec-d reveal">A track record of technical leadership , from building AI infrastructure and
+                founding engineering teams to driving $56M+ in trading volume worldwide.</p>
+
+            <div class="exp-list">
+
+                <!-- Forward Outlook CTO -->
+                <div class="exp-it reveal">
+                    <div class="exp-dt">May 2026<br>Present</div>
+                    <div class="exp-node red"></div>
+                    <div class="exp-body">
+                        <div class="exp-role">
+                            Chief Technology Officer
+                            <span class="bdg bdg-red">CTO</span>
+                            <span class="bdg bdg-green">Current</span>
+                        </div>
+                        <div class="exp-co">Forward Outlook Ltd · Part-time · United Kingdom</div>
+                        <div class="exp-desc">Lead the technological vision and infrastructure for a diverse
+                            business ecosystem including Gabriel Topman Consultancy, Transport SaaS, and Business
+                            Growth Action (BGA). Focus on architecting and deploying scalable AI systems to drive
+                            operational efficiency and high-level growth.</div>
+                        <ul class="exp-bullets">
+                            <li><strong>AI Infrastructure &amp; RAG:</strong> Architecting specialized
+                                Retrieval-Augmented Generation systems using LlamaIndex to automate "Growth Gap"
+                                diagnostics and synthesize complex multi-source business data.</li>
+                            <li><strong>SaaS Optimization:</strong> Enhancing a Transport SaaS platform by
+                                integrating multimodal models (Gemini API, OpenAI) for intelligent booking automation
+                                and Document AI for real-time digital processing.</li>
+                            <li><strong>Cloud &amp; Scalability:</strong> Managing enterprise-grade deployment on
+                                Google Cloud Platform and DigitalOcean, ensuring seamless scaling of all automated
+                                backend services.</li>
+                            <li><strong>Market Intelligence:</strong> Implementing Python-based sentiment analysis
+                                and financial API integrations to provide real-time market intelligence for the BGA
+                                community.</li>
+                            <li><strong>Low-latency AI:</strong> Leveraging deep low-level programming and Computer
+                                Architecture knowledge to optimize AI inferencing and future-proof the tech stack.</li>
+                        </ul>
+                        <div class="exp-tags">
+                            <span class="exp-tag">LlamaIndex</span>
+                            <span class="exp-tag">RAG</span>
+                            <span class="exp-tag">Gemini API</span>
+                            <span class="exp-tag">OpenAI</span>
+                            <span class="exp-tag">GCP</span>
+                            <span class="exp-tag">DigitalOcean</span>
+                            <span class="exp-tag">Document AI</span>
+                            <span class="exp-tag">Sentiment Analysis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Movable Games CTO -->
+                <div class="exp-it reveal">
+                    <div class="exp-dt">Jan 2026<br>Present</div>
+                    <div class="exp-node red"></div>
+                    <div class="exp-body">
+                        <div class="exp-role">
+                            Chief Technology Officer
+                            <span class="bdg bdg-red">CTO</span>
+                            <span class="bdg bdg-green">Current</span>
+                        </div>
+                        <div class="exp-co">Movable Games · Part-time · Lagos, Nigeria</div>
+                        <div class="exp-desc">Engineering a solution to "Symbol Amnesia" , the fundamental
+                            disconnect where students struggle with abstract mathematical symbols yet demonstrate
+                            extraordinary recall for complex narratives and procedural mechanics. Building a
+                            neuroscience-backed platform that reconstructs mathematical symbolism to align with how
+                            the human brain naturally encodes information.</div>
+                        <ul class="exp-bullets">
+                            <li><strong>Agent-Based Cognition:</strong> Leading a novel framework that reimagines
+                                mathematics through autonomous agents , operators become interactive entities with
+                                defined behaviors, leveraging the brain's superior capacity for procedural
+                                memory.</li>
+                            <li><strong>Cognitive Alignment:</strong> Applying Symbol Grounding Theory and Embodied
+                                Cognition to ensure deep conceptual understanding without reducing mathematical
+                                rigor.</li>
+                            <li><strong>Scalable Game Engine:</strong> Developing a language-agnostic,
+                                low-bandwidth solution targeting the $400B+ digital education market with algebraic
+                                logic as observable, rule-based interactions.</li>
+                        </ul>
+                        <div class="exp-tags">
+                            <span class="exp-tag">Agent-Based AI</span>
+                            <span class="exp-tag">Cognitive Science</span>
+                            <span class="exp-tag">Edtech</span>
+                            <span class="exp-tag">Game Engine</span>
+                            <span class="exp-tag">Systems Architecture</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upwork Software Engineer -->
+                <div class="exp-it reveal">
+                    <div class="exp-dt">Mar 2025<br>Sep 2025</div>
+                    <div class="exp-node purple"></div>
+                    <div class="exp-body">
+                        <div class="exp-role">
+                            Software Engineer
+                            <span class="bdg bdg-purple">Freelance</span>
+                        </div>
+                        <div class="exp-co">Upwork · Part-time · United States</div>
+                        <div class="exp-desc">Delivered high-performance technical solutions for a global client
+                            base, specializing in AI integration, systems programming, and automated workflows for
+                            startups and established enterprises.</div>
+                        <ul class="exp-bullets">
+                            <li><strong>Custom AI &amp; Data Solutions:</strong> Architected and deployed RAG
+                                pipelines and intelligent agents using Python and LlamaIndex to automate complex data
+                                synthesis across multiple client projects.</li>
+                            <li><strong>Systems &amp; API Development:</strong> Developed low-latency backend
+                                components and integrated diverse financial and social APIs into scalable
+                                applications.</li>
+                            <li><strong>End-to-End Delivery:</strong> Managed the full development lifecycle , from
+                                hardware-level C++ optimization to intuitive GUIs , ensuring high code quality and
+                                thread safety throughout.</li>
+                        </ul>
+                        <div class="exp-tags">
+                            <span class="exp-tag">RAG</span>
+                            <span class="exp-tag">LlamaIndex</span>
+                            <span class="exp-tag">Python</span>
+                            <span class="exp-tag">C++</span>
+                            <span class="exp-tag">API Integration</span>
+                            <span class="exp-tag">AI Agents</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BBS Trading Founder -->
+                <div class="exp-it reveal">
+                    <div class="exp-dt">2023<br>Present</div>
+                    <div class="exp-node blue"></div>
+                    <div class="exp-body">
+                        <div class="exp-role">
+                            Founder &amp; Lead Developer
+                            <span class="bdg bdg-blue">Open Source</span>
+                        </div>
+                        <div class="exp-co"><a href="https://github.com/bbalouki" target="_blank">BBS Trading ·
+                                github.com/bbalouki</a></div>
+                        <div class="exp-desc">Created and maintain <strong>bbstrader</strong> , an
+                            institutional-grade, open-source investment &amp; trading toolkit combining Python and
+                            C++20. Distributed on PyPI, documented on ReadTheDocs, and used by algorithmic traders
+                            worldwide. Also developed a Nasdaq ITCH 5.0 Python parser, a high-performance C++20
+                            parser, and a global economic data database.</div>
+                        <div class="exp-tags">
+                            <span class="exp-tag">Python</span>
+                            <span class="exp-tag">C++20</span>
+                            <span class="exp-tag">PyPI</span>
+                            <span class="exp-tag">ReadTheDocs</span>
+                            <span class="exp-tag">Algo Trading</span>
+                            <span class="exp-tag">MetaTrader 5</span>
+                            <span class="exp-tag">NLP / ML</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JustMarkets IB -->
+                <div class="exp-it reveal">
+                    <div class="exp-dt">Jan 2020<br>Present</div>
+                    <div class="exp-node green"></div>
+                    <div class="exp-body">
+                        <div class="exp-role">
+                            Business Partner · Introducing Broker
+                            <span class="bdg bdg-green">IB</span>
+                        </div>
+                        <div class="exp-co">JustMarkets · Part-time · Mauritius</div>
+                        <div class="exp-desc">Partner with a globally regulated broker (FSA, CySEC, FSC, FSCA)
+                            serving over 2 million traders in 160+ countries across Forex, CFDs, commodities,
+                            indices, and stocks.</div>
+                        <ul class="exp-bullets">
+                            <li>Built and managed a personal network achieving over <strong>316 standard lots
+                                    traded</strong>, representing a total trading volume exceeding
+                                <strong>$56 million</strong>.
+                            </li>
+                            <li>Drove active trader acquisition through digital marketing, social media, and
+                                targeted campaigns.</li>
+                            <li>Applied ethical promotion practices aligned with FSA, CySEC, FSC, and FSCA
+                                regulatory frameworks to ensure long-term trust and compliance.</li>
+                        </ul>
+                        <div class="exp-tags">
+                            <span class="exp-tag">Forex</span>
+                            <span class="exp-tag">CFDs</span>
+                            <span class="exp-tag">IB Network</span>
+                            <span class="exp-tag">Digital Marketing</span>
+                            <span class="exp-tag">Regulatory Compliance</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Newsletter Author -->
+                <div class="exp-it reveal">
+                    <div class="exp-dt">2023<br>Present</div>
+                    <div class="exp-node blue"></div>
+                    <div class="exp-body">
+                        <div class="exp-role">
+                            Author &amp; Publisher
+                            <span class="bdg bdg-blue">Writing</span>
+                        </div>
+                        <div class="exp-co"><a href="https://thefintech.substack.com" target="_blank">TheFinTech
+                                Insights Digest · Substack</a></div>
+                        <div class="exp-desc">Publishes in-depth technical content on distributed systems, fintech
+                            infrastructure, and algorithmic markets , covering topics from P2P network architectures
+                            to quantitative trading mechanisms and AI system design.</div>
+                        <div class="exp-tags">
+                            <span class="exp-tag">Distributed Systems</span>
+                            <span class="exp-tag">FinTech</span>
+                            <span class="exp-tag">Technical Writing</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- EDUCATION -->
+    <section id="education">
+        <div class="pw">
+            <p class="sec-lbl reveal">Education</p>
+            <h2 class="sec-t reveal">Academic Background</h2>
+            <p class="sec-d reveal">A multidisciplinary foundation spanning computer science, financial engineering,
+                and quantitative methods , built across leading institutions worldwide.</p>
+
+            <div class="edu-g">
+
+                <div class="edu-c cs reveal">
+                    <div class="edu-logo">🎓</div>
+                    <div class="edu-school">University of the People</div>
+                    <div class="edu-degree">Bachelor of Science , Computer Science</div>
+                    <div class="edu-meta">GPA: 3.58 · In Progress<br>Accredited · Tuition-Free</div>
+                    <div class="edu-skills">
+                        <span class="edu-skill">Software Development</span>
+                        <span class="edu-skill">Data Structures</span>
+                        <span class="edu-skill">Computer Systems</span>
+                        <span class="edu-skill">Databases</span>
+                        <span class="edu-skill">Networking</span>
+                        <span class="edu-skill">Applied Mathematics</span>
+                    </div>
+                </div>
+
+                <div class="edu-c mit reveal" style="transition-delay:.08s">
+                    <div class="edu-logo">⚙️</div>
+                    <div class="edu-school">MIT Open Learning</div>
+                    <div class="edu-degree">Computer and Information Sciences, General</div>
+                    <div class="edu-meta">Skills: Parallel Computing · Conversion Optimization</div>
+                    <div class="edu-skills">
+                        <span class="edu-skill">Algorithms &amp; Software Construction</span>
+                        <span class="edu-skill">Linear Algebra</span>
+                        <span class="edu-skill">Calculus</span>
+                        <span class="edu-skill">Discrete Applied Mathematics</span>
+                        <span class="edu-skill">Parallel Computing</span>
+                    </div>
+                </div>
+
+                <div class="edu-c cfi reveal" style="transition-delay:.16s">
+                    <div class="edu-logo">📈</div>
+                    <div class="edu-school">Corporate Finance Institute® (CFI)</div>
+                    <div class="edu-degree">FMVA · BIDA · CMSA</div>
+                    <div class="edu-meta">Banking · Corporate Finance · Securities Law</div>
+                    <div class="edu-skills">
+                        <span class="edu-skill">Financial Modeling &amp; Valuation</span>
+                        <span class="edu-skill">Capital Markets Analysis</span>
+                        <span class="edu-skill">Security Analysis</span>
+                        <span class="edu-skill">Investment Banking</span>
+                    </div>
+                </div>
+
+                <div class="edu-c harvard reveal" style="transition-delay:.24s">
+                    <div class="edu-logo">🏛️</div>
+                    <div class="edu-school">Harvard University</div>
+                    <div class="edu-degree">CS50x , Introduction to Computer Science</div>
+                    <div class="edu-meta">Certificate of Completion · Cambridge, MA · 2023<br>10 Problem Sets · 9 Labs ·
+                        Final Project</div>
+                    <div class="edu-skills">
+                        <span class="edu-skill">C</span>
+                        <span class="edu-skill">Python</span>
+                        <span class="edu-skill">SQL</span>
+                        <span class="edu-skill">JavaScript</span>
+                        <span class="edu-skill">Algorithms</span>
+                        <span class="edu-skill">Data Structures</span>
+                    </div>
+                    <a href="https://certificates.cs50.io/823ba30f-d9ee-4904-b336-8924e20935c5" target="_blank"
+                        class="edu-link">Verify certificate ↗</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- PROJECTS -->
+    <section id="projects">
+        <div class="pw">
+            <p class="sec-lbl reveal">Open Source</p>
+            <h2 class="sec-t reveal">Pinned Repositories</h2>
+            <p class="sec-d reveal">Production-grade tools for quantitative finance and high-performance market data
+                processing , built in public, used by traders worldwide.</p>
+
+            <div style="margin-top:2rem">
+                <div class="pin-hdr reveal">📌 Pinned , bbalouki</div>
+                <div class="repo-g">
+
+                    <!-- Featured: bbstrader -->
+                    <div class="rc feat reveal">
+                        <div>
+                            <div
+                                style="font-family:var(--mono);font-size:.63rem;color:var(--text-3);margin-bottom:.4rem">
+                                FLAGSHIP PROJECT</div>
+                            <div class="rc-hdr">
+                                <div class="rc-name"><span>bbalouki / </span>bbstrader</div>
+                                <div class="rc-links">
+                                    <a href="https://github.com/bbalouki/bbstrader" target="_blank"
+                                        class="rc-lnk">GitHub ↗</a>
+                                    <a href="https://bbstrader.readthedocs.io" target="_blank" class="rc-lnk">Docs ↗</a>
+                                    <a href="https://pypi.org/project/bbstrader/" target="_blank" class="rc-lnk">PyPI
+                                        ↗</a>
+                                </div>
+                            </div>
+                            <div class="rc-desc">The ultimate C++ &amp; Python trading powerhouse , an
+                                institutional-grade toolkit for quants, algo traders, and professionals who demand an
+                                edge. Bridges C++'s deterministic execution with Python's analytical ecosystem via a
+                                bidirectional pybind11 bridge. Features an event-driven backtester, MetaTrader 5
+                                integration, live strategy execution, copy trading, and ML-driven signal
+                                generation.</div>
+                            <div class="tags" style="margin-bottom:.9rem">
+                                <span class="tag">Python</span>
+                                <span class="tag">C++20</span>
+                                <span class="tag">CMake</span>
+                                <span class="tag">pybind11</span>
+                                <span class="tag">MetaTrader 5</span>
+                                <span class="tag">Backtesting</span>
+                                <span class="tag">Live Trading</span>
+                                <span class="tag">ML / NLP</span>
+                            </div>
+                            <div class="rc-meta">
+                                <div class="rc-lang">
+                                    <div class="ld ld-cpp"></div>C++
+                                </div>
+                                <div class="rc-lang">
+                                    <div class="ld ld-py"></div>Python
+                                </div>
+                                <span>★ 13</span><span>⑂ 3</span>
+                                <span style="color:var(--green)">6k+ downloads</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="code-box">
+                                <div class="code-bar"><span>●</span><span class="fn">strategy.py , Python
+                                        orchestrates C++ core</span></div>
+                                <pre><span class="cc"># C++ Core, Python Orchestrator via pybind11</span>
+<span class="ck">from</span> <span class="ccl">bbstrader.api</span> <span class="ck">import</span> <span class="cf">Mt5Handlers</span>
+<span class="ck">from</span> <span class="ccl">my_strategies</span> <span class="ck">import</span> <span class="cf">MovingAverageStrategy</span>
+
+<span class="cc"># Inject Python MT5 handlers into C++ class</span>
+<span class="cv">strategy</span> = <span class="cf">MovingAverageStrategy</span>(<span class="ccl">Mt5Handlers</span>)
+
+<span class="ck">if</span> strategy.<span class="cf">initialize</span>():
+    <span class="ck">while</span> <span class="cv">True</span>:
+        strategy.<span class="cf">on_tick</span>(<span class="cs">"EURUSD"</span>)
+
+<span class="cc"># ML-driven sentiment signal</span>
+<span class="ck">from</span> <span class="ccl">bbstrader.models</span> <span class="ck">import</span> <span class="cf">SentimentAnalyzer</span>
+<span class="cv">score</span> = <span class="cf">SentimentAnalyzer</span>().<span class="cf">analyze</span>(
+    <span class="cs">"Fed hikes rates , markets soar!"</span>
+)
+<span class="ck">if</span> <span class="cv">score</span> &gt; <span class="cv">0.7</span>: <span class="cf">print</span>(<span class="cs">"Go long 📈"</span>)</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rc reveal">
+                        <div class="rc-hdr">
+                            <span style="font-size:1rem">📦</span>
+                            <div class="rc-links">
+                                <a href="https://github.com/bbalouki/itch" target="_blank" class="rc-lnk">GitHub ↗</a>
+                                <a href="https://pypi.org/project/itchfeed/" target="_blank" class="rc-lnk">PyPI ↗</a>
+                            </div>
+                        </div>
+                        <div class="rc-name"><span>bbalouki / </span>itch</div>
+                        <div class="rc-desc">A Python library for parsing Nasdaq TotalView-ITCH 5.0 binary data ,
+                            converting raw byte streams into structured Python objects. Supports all standard message
+                            types defined in the specification, with efficient file-based buffered parsing.</div>
+                        <div class="rc-meta" style="margin-top:auto">
+                            <div class="rc-lang">
+                                <div class="ld ld-py"></div>Python
+                            </div>
+                            <span>Nasdaq ITCH 5.0</span><span>Market Data</span>
+                        </div>
+                    </div>
+
+                    <div class="rc reveal" style="transition-delay:.08s">
+                        <div class="rc-hdr">
+                            <span style="font-size:1rem">⚡</span>
+                            <div class="rc-links">
+                                <a href="https://github.com/bbalouki/itchcpp" target="_blank" class="rc-lnk">GitHub
+                                    ↗</a>
+                            </div>
+                        </div>
+                        <div class="rc-name"><span>bbalouki / </span>itchcpp</div>
+                        <div class="rc-desc">A high-performance C++20 library for parsing Nasdaq ITCH 5.0 protocol
+                            data feeds , architected for maximum speed with zero dynamic memory allocation in the
+                            critical path. Uses <code
+                                style="font-family:var(--mono);font-size:.8em;color:var(--blue-l)">std::variant</code>
+                            for type-safe message dispatch , ideal for latency-sensitive HFT applications.</div>
+                        <div class="rc-meta" style="margin-top:auto">
+                            <div class="rc-lang">
+                                <div class="ld ld-cpp"></div>C++20
+                            </div>
+                            <span>Zero-copy</span><span>HFT</span>
+                        </div>
+                    </div>
+
+                    <div class="rc reveal" style="transition-delay:.16s">
+                        <div class="rc-hdr">
+                            <span style="font-size:1rem">🗄️</span>
+                            <div class="rc-links">
+                                <a href="https://github.com/bbalouki/economydb" target="_blank" class="rc-lnk">GitHub
+                                    ↗</a>
+                            </div>
+                        </div>
+                        <div class="rc-name"><span>bbalouki / </span>economydb</div>
+                        <div class="rc-desc">A curated database of economic data from various countries ,
+                            providing structured, accessible macroeconomic datasets for quantitative analysis,
+                            hypothesis backtesting, and financial research.</div>
+                        <div class="rc-meta" style="margin-top:auto">
+                            <div class="rc-lang">
+                                <div class="ld ld-py"></div>Python
+                            </div>
+                            <span>Macro Finance</span><span>Research</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- WRITING -->
+    <section id="writing">
+        <div class="pw">
+            <p class="sec-lbl reveal">Thought Leadership</p>
+            <h2 class="sec-t reveal">Writing &amp; Research</h2>
+            <p class="sec-d reveal">Technical dispatches on distributed systems, fintech infrastructure, and
+                algorithmic markets , published on TheFinTech Insights Digest.</p>
+
+            <div class="art-g" style="margin-top:2rem">
+
+                <div class="art-c reveal">
+                    <div class="art-dt">September 24, 2023</div>
+                    <div class="art-tag">Distributed Systems</div>
+                    <div class="art-t">Distributed Peer-to-Peer Networks , Architecture &amp; Principles</div>
+                    <div class="art-ex">A deep exploration of distributed P2P network architecture , covering
+                        decentralization, resource sharing, scalability, and real-world applications from blockchain
+                        to high-performance content delivery networks.</div>
+                    <a href="https://thefintech.substack.com/p/distributed-p2p-network" target="_blank"
+                        class="art-lnk">Read on Substack</a>
+                </div>
+
+                <div class="art-c reveal" style="transition-delay:.08s">
+                    <div class="art-dt">LinkedIn · 2025</div>
+                    <div class="art-tag">Market Data</div>
+                    <div class="art-t">Nasdaq TotalView-ITCH 5.0 , Building a High-Performance Parser</div>
+                    <div class="art-ex">A technical deep-dive into the ITCH binary protocol , parsing strategy,
+                        zero-copy deserialization, endianness handling, and performance benchmarks for
+                        institutional-grade market data processing.</div>
+                    <a href="https://www.linkedin.com/in/bertin-balouki-s-15b17a1a6" target="_blank"
+                        class="art-lnk">View on LinkedIn</a>
+                </div>
+
+                <div class="art-c reveal" style="transition-delay:.16s">
+                    <div class="art-dt">Ongoing</div>
+                    <div class="art-tag">Consulting</div>
+                    <div class="art-t">Professional Services , Custom Trading Systems &amp; AI Pipelines</div>
+                    <div class="art-ex">Available for bespoke engagements , custom algo strategies, proprietary
+                        risk models, advanced RAG/AI data pipelines, and dedicated copy trading server
+                        infrastructure.</div>
+                    <a href="mailto:bertin@bbs-trading.com" class="art-lnk">Inquire by email</a>
+                </div>
+
+            </div>
+
+            <div class="nl reveal">
+                <div>
+                    <div class="nl-t">TheFinTech Insights Digest , Substack Newsletter</div>
+                    <div class="nl-s">// Dispatches on FinTech infrastructure, distributed systems, and algorithmic
+                        markets</div>
+                </div>
+                <a href="https://thefintech.substack.com" target="_blank" class="btn btn-blue">Subscribe ↗</a>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <div class="pw">
+            <div class="cont-g">
+                <div class="reveal">
+                    <p class="sec-lbl">Contact</p>
+                    <h2 class="sec-t">Let's build<br>something great.</h2>
+                    <p class="sec-d">Whether it's a custom trading system, an AI pipeline, a collaboration on
+                        open-source, or a conversation about markets and technology , reach out through any of these
+                        channels.</p>
+                    <div class="c-links">
+                        <a href="mailto:bertin@bbs-trading.com" class="cl">
+                            <div class="cl-ico">✉️</div>
+                            <div>
+                                <div class="cl-lbl">Email</div>
+                                <div class="cl-val">bertin@bbs-trading.com</div>
+                            </div>
+                        </a>
+                        <a href="https://github.com/bbalouki" target="_blank" class="cl">
+                            <div class="cl-ico">⌥</div>
+                            <div>
+                                <div class="cl-lbl">GitHub</div>
+                                <div class="cl-val">github.com/bbalouki</div>
+                            </div>
+                        </a>
+                        <a href="https://www.linkedin.com/in/bertin-balouki-s-15b17a1a6" target="_blank" class="cl">
+                            <div class="cl-ico">◈</div>
+                            <div>
+                                <div class="cl-lbl">LinkedIn</div>
+                                <div class="cl-val">Bertin Balouki SIMYELI</div>
+                            </div>
+                        </a>
+                        <a href="https://thefintech.substack.com" target="_blank" class="cl">
+                            <div class="cl-ico">◎</div>
+                            <div>
+                                <div class="cl-lbl">Newsletter , Substack</div>
+                                <div class="cl-val">TheFinTech Insights Digest</div>
+                            </div>
+                        </a>
+                        <a href="https://wa.me/17733453491" target="_blank" class="cl cl-wa">
+                            <div class="cl-ico">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.17 1.6 5.98L0 24l6.19-1.58A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zm-8.52 18.4a9.9 9.9 0 0 1-5.04-1.38l-.36-.22-3.74.96.99-3.63-.23-.37A9.9 9.9 0 0 1 2.1 12c0-5.46 4.44-9.9 9.9-9.9 2.65 0 5.13 1.03 7 2.9a9.86 9.86 0 0 1 2.9 7c0 5.46-4.44 9.9-9.9 9.9zm5.43-7.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.34.22-.64.07a8.1 8.1 0 0 1-2.38-1.47 8.9 8.9 0 0 1-1.65-2.05c-.17-.3-.02-.46.13-.6.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.91-2.19-.24-.57-.49-.5-.67-.5h-.57c-.2 0-.52.07-.79.37-.27.3-1.03 1.01-1.03 2.46s1.06 2.85 1.2 3.05c.15.2 2.07 3.17 5.02 4.44.7.3 1.25.48 1.67.62.7.22 1.34.19 1.85.11.56-.08 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"
+                                        fill="currentColor" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="cl-lbl">WhatsApp , Chat directly</div>
+                                <div class="cl-val">+1 773 345 3491</div>
+                            </div>
+                        </a>
+                        <a href="https://t.me/bbalouki" target="_blank" class="cl cl-tg">
+                            <div class="cl-ico">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L6.92 14.17l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.389z"
+                                        fill="currentColor" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="cl-lbl">Telegram , Message me</div>
+                                <div class="cl-val">@bbalouki</div>
+                            </div>
+                        </a>
+                        <a href="https://paypal.me/bertinbalouki" target="_blank" class="cl">
+                            <div class="cl-ico">☕</div>
+                            <div>
+                                <div class="cl-lbl">Support open-source work</div>
+                                <div class="cl-val">Buy me a coffee , PayPal</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="reveal" style="transition-delay:.12s">
+                    <div class="form-c">
+                        <div class="form-t">Send a message</div>
+                        <div class="fg-row">
+                            <div class="fg">
+                                <label>Name</label>
+                                <input type="text" id="f-name" placeholder="Your name" />
+                            </div>
+                            <div class="fg">
+                                <label>Email</label>
+                                <input type="email" id="f-email" placeholder="your@email.com" />
+                            </div>
+                        </div>
+                        <div class="fg">
+                            <label>Subject</label>
+                            <input type="text" id="f-sub" placeholder="What's this about?" />
+                        </div>
+                        <div class="fg">
+                            <label>Message</label>
+                            <textarea id="f-msg" rows="5"
+                                placeholder="Tell me about your project or inquiry…"></textarea>
+                        </div>
+                        <button class="btn btn-blue" style="width:100%;margin-top:.25rem" onclick="sendMsg()">Send
+                            message →</button>
+                        <div class="form-ok" id="form-ok">✓ Opening your mail client…</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="fc">© 2026 Bertin Balouki SIMYELI , All rights reserved</div>
+        <div class="fl">
+            <a href="https://github.com/bbalouki" target="_blank">GitHub</a>
+            <a href="https://www.linkedin.com/in/bertin-balouki-s-15b17a1a6" target="_blank">LinkedIn</a>
+            <a href="https://thefintech.substack.com" target="_blank">Substack</a>
+            <a href="mailto:bertin@bbs-trading.com">Email</a>
+            <a href="https://pypi.org/project/bbstrader/" target="_blank">PyPI</a>
+        </div>
+    </footer>
+
+    <!-- Floating chat buttons -->
+    <div class="chat-widget">
+        <a href="https://wa.me/17733453491" target="_blank" class="chat-bubble wa" title="Chat on WhatsApp">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.17 1.6 5.98L0 24l6.19-1.58A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zm-8.52 18.4a9.9 9.9 0 0 1-5.04-1.38l-.36-.22-3.74.96.99-3.63-.23-.37A9.9 9.9 0 0 1 2.1 12c0-5.46 4.44-9.9 9.9-9.9 2.65 0 5.13 1.03 7 2.9a9.86 9.86 0 0 1 2.9 7c0 5.46-4.44 9.9-9.9 9.9zm5.43-7.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.34.22-.64.07a8.1 8.1 0 0 1-2.38-1.47 8.9 8.9 0 0 1-1.65-2.05c-.17-.3-.02-.46.13-.6.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.91-2.19-.24-.57-.49-.5-.67-.5h-.57c-.2 0-.52.07-.79.37-.27.3-1.03 1.01-1.03 2.46s1.06 2.85 1.2 3.05c.15.2 2.07 3.17 5.02 4.44.7.3 1.25.48 1.67.62.7.22 1.34.19 1.85.11.56-.08 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"
+                    fill="currentColor" />
+            </svg>
+            <span class="chat-label">WhatsApp</span>
+        </a>
+        <a href="https://t.me/bbalouki" target="_blank" class="chat-bubble tg" title="Message on Telegram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L6.92 14.17l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.389z"
+                    fill="currentColor" />
+            </svg>
+            <span class="chat-label">Telegram</span>
+        </a>
+    </div>
+
+    <script>
+        const io = new IntersectionObserver(e => {
+            e.forEach(x => { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target) } })
+        }, { threshold: .07 });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const t = document.querySelector(a.getAttribute('href'));
+                if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }) }
+            });
+        });
+
+        function sendMsg() {
+            const n = document.getElementById('f-name').value.trim();
+            const em = document.getElementById('f-email').value.trim();
+            const s = document.getElementById('f-sub').value.trim();
+            const m = document.getElementById('f-msg').value.trim();
+            if (!n || !em || !m) { alert('Please fill in name, email, and message.'); return }
+            window.location.href = `mailto:bertin@bbs-trading.com?subject=${encodeURIComponent(s || 'Portfolio Inquiry')}&body=${encodeURIComponent('Name: ' + n + '\nEmail: ' + em + '\n\n' + m)}`;
+            document.getElementById('form-ok').style.display = 'block';
+        }
+
+        /* Scroll-based nav opacity */
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('nav');
+            nav.style.borderBottomColor = window.scrollY > 20 ? 'var(--border)' : 'var(--border-subtle)';
+        });
+    </script>
+</body>
+
+</html>
