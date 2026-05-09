@@ -1,3 +1,4 @@
 /resources
 *.code-workspace
 /.claude
+deploy.md
