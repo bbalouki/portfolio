@@ -779,22 +779,28 @@
 
         .sec-lbl {
             font-family: var(--mono);
-            font-size: .68rem;
-            color: var(--blue);
-            letter-spacing: .12em;
+            font-size: .65rem;
+            color: var(--blue-l);
+            letter-spacing: .1em;
             text-transform: uppercase;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: .5rem;
-            margin-bottom: .7rem;
+            gap: .45rem;
+            margin-bottom: .85rem;
+            background: rgba(96, 165, 250, .08);
+            border: 1px solid rgba(96, 165, 250, .22);
+            padding: .28rem .75rem .28rem .6rem;
+            border-radius: 999px;
         }
 
         .sec-lbl::before {
             content: '';
             display: inline-block;
-            width: 20px;
-            height: 1px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
             background: var(--blue);
+            flex-shrink: 0;
         }
 
         h2.sec-t {
