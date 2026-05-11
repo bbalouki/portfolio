@@ -3333,6 +3333,41 @@ cmake --build build</pre>
                         </div>
                     </div>
 
+                    <div class="rc reveal" style="transition-delay:.32s">
+                        <div class="rc-hdr">
+                            <span style="font-size:1rem">🧩</span>
+                            <div class="rc-links">
+                                <a href="https://github.com/bbalouki/DesignPatterns" target="_blank" class="rc-lnk">GitHub ↗</a>
+                            </div>
+                        </div>
+                        <div class="rc-name"><span>bbalouki / </span>DesignPatterns</div>
+                        <div class="rc-desc">All 23 Gang-of-Four design patterns implemented in modern C++23 , each paired with a real-world mini-project that motivates the pattern and explains the tradeoffs considered. Organized into three executables (Creational · Structural · Behavioral) and built with CMake 3.25+.</div>
+                        <div class="code-box" style="margin-top:.8rem">
+                            <div class="code-bar"><span>●</span><span class="fn">observer.cpp , Behavioral · event-driven signal</span></div>
+                            <pre><span class="cc">// Observer · event-driven price feed</span>
+<span class="ck">struct</span> <span class="cf">PriceObserver</span> {
+    <span class="ck">virtual</span> <span class="ck">void</span> <span class="cf">on_tick</span>(<span class="ck">double</span> <span class="cv">price</span>) = <span class="cv">0</span>;
+};
+
+<span class="ck">class</span> <span class="cf">MarketFeed</span> {            <span class="cc">// Subject</span>
+    std::<span class="cf">vector</span>&lt;<span class="cf">PriceObserver</span>*&gt; <span class="cv">subs_</span>;
+<span class="ck">public</span>:
+    <span class="ck">void</span> <span class="cf">subscribe</span>(<span class="cf">PriceObserver</span>&amp; <span class="cv">o</span>) { <span class="cv">subs_</span>.<span class="cf">push_back</span>(&amp;<span class="cv">o</span>); }
+    <span class="ck">void</span> <span class="cf">publish</span>(<span class="ck">double</span> <span class="cv">price</span>) {
+        <span class="ck">for</span> (<span class="ck">auto</span>* <span class="cv">o</span> : <span class="cv">subs_</span>) <span class="cv">o</span>-&gt;<span class="cf">on_tick</span>(<span class="cv">price</span>);
+    }
+};
+<span class="cc">// ← RiskEngine, Logger, Strategy all notified</span>
+<span class="cc">// [23 patterns] Creational · Structural · Behavioral</span></pre>
+                        </div>
+                        <div class="rc-meta" style="margin-top:.8rem">
+                            <div class="rc-lang">
+                                <div class="ld ld-cpp"></div>C++23
+                            </div>
+                            <span>CMake</span><span>GoF Patterns</span><span>OOP</span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
