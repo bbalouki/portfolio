@@ -1168,235 +1168,182 @@
         }
 
         /* ── EXPERIENCE ── */
-        #experience {
-            padding: 6rem 0
-        }
+        /* ── EXPERIENCE ── */
+        #experience { padding: 6rem 0 }
 
-        .exp-list {
-            display: flex;
-            flex-direction: column;
-            margin-top: 2.5rem
-        }
-
-        .exp-it {
-            display: grid;
-            grid-template-columns: 155px 1fr;
-            gap: 0 2.5rem;
+        .exp-timeline {
             position: relative;
-            padding-bottom: 2.5rem;
+            margin-top: 3rem;
         }
-
-        .exp-it:last-child {
-            padding-bottom: 0
-        }
-
-        .exp-it::after {
+        .exp-timeline::before {
             content: '';
             position: absolute;
-            left: 154px;
-            top: 10px;
-            bottom: 0;
-            width: 1px;
-            background: var(--border-subtle);
+            left: 50%;
+            top: 0; bottom: 0;
+            width: 2px;
+            transform: translateX(-50%);
+            background: linear-gradient(to bottom, transparent, var(--border-subtle) 5%, var(--border-subtle) 95%, transparent);
         }
 
-        .exp-it:last-child::after {
-            display: none
+        .exp-entry {
+            display: grid;
+            grid-template-columns: 1fr 52px 1fr;
+            align-items: start;
+            margin-bottom: 3.5rem;
         }
+        .exp-entry:last-child { margin-bottom: 0 }
+
+        .exp-entry.reveal { opacity: 1; transform: none; transition: none }
+
+        .exp-nc {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 1.3rem;
+            gap: .45rem;
+            opacity: 0;
+            transition: opacity .5s ease .15s;
+        }
+        .exp-entry.in .exp-nc { opacity: 1 }
+
+        .exp-node {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 2px solid var(--border-subtle);
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+            transition: box-shadow .4s;
+        }
+        .exp-node::after {
+            content: '';
+            position: absolute;
+            inset: 3.5px;
+            border-radius: 50%;
+        }
+        .exp-node.red    { border-color: var(--red)    }
+        .exp-node.red::after   { background: var(--red)    }
+        .exp-entry.in .exp-node.red    { box-shadow: 0 0 0 5px rgba(248,81,73,.15) }
+        .exp-node.blue   { border-color: var(--blue)   }
+        .exp-node.blue::after  { background: var(--blue)   }
+        .exp-entry.in .exp-node.blue   { box-shadow: 0 0 0 5px rgba(47,129,247,.15) }
+        .exp-node.purple { border-color: var(--purple) }
+        .exp-node.purple::after { background: var(--purple) }
+        .exp-entry.in .exp-node.purple { box-shadow: 0 0 0 5px rgba(163,113,247,.15) }
+        .exp-node.green  { border-color: var(--green)  }
+        .exp-node.green::after { background: var(--green)  }
+        .exp-entry.in .exp-node.green  { box-shadow: 0 0 0 5px rgba(63,185,80,.15) }
+        .exp-node.orange { border-color: var(--orange) }
+        .exp-node.orange::after { background: var(--orange) }
+        .exp-entry.in .exp-node.orange { box-shadow: 0 0 0 5px rgba(210,153,34,.15) }
 
         .exp-dt {
             font-family: var(--mono);
-            font-size: .66rem;
+            font-size: .6rem;
             color: var(--text-3);
-            text-align: right;
-            padding-top: .1rem;
-            line-height: 1.6;
+            text-align: center;
+            line-height: 1.5;
         }
 
-        .exp-node {
-            position: absolute;
-            left: 148px;
-            top: 7px;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: var(--bg);
-            border: 2px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        .exp-entry.r .exp-nc   { grid-column: 2 }
+        .exp-entry.r .exp-card { grid-column: 3 }
+        .exp-entry.r .exp-ph   { grid-column: 1 }
+        .exp-entry.l .exp-nc   { grid-column: 2 }
+        .exp-entry.l .exp-card { grid-column: 1 }
+        .exp-entry.l .exp-ph   { grid-column: 3 }
 
-        .exp-node.blue {
-            border-color: var(--blue)
+        .exp-card {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-subtle);
+            border-radius: calc(var(--r) * 4);
+            padding: 1.4rem 1.5rem;
+            transition: border-color .25s, box-shadow .25s, opacity .65s ease, transform .65s ease;
         }
+        .exp-card:hover {
+            border-color: var(--border);
+            box-shadow: 0 8px 32px rgba(0,0,0,.32);
+        }
+        .exp-card.red    { border-left: 3px solid var(--red)    }
+        .exp-card.blue   { border-left: 3px solid var(--blue)   }
+        .exp-card.purple { border-left: 3px solid var(--purple) }
+        .exp-card.green  { border-left: 3px solid var(--green)  }
+        .exp-card.orange { border-left: 3px solid var(--orange) }
 
-        .exp-node.blue::after {
-            content: '';
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--blue)
-        }
-
-        .exp-node.red {
-            border-color: var(--red)
-        }
-
-        .exp-node.red::after {
-            content: '';
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--red)
-        }
-
-        .exp-node.purple {
-            border-color: var(--purple)
-        }
-
-        .exp-node.purple::after {
-            content: '';
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--purple)
-        }
-
-        .exp-node.green {
-            border-color: var(--green)
-        }
-
-        .exp-node.green::after {
-            content: '';
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--green)
-        }
-
-        .exp-node.orange {
-            border-color: var(--orange)
-        }
-
-        .exp-node.orange::after {
-            content: '';
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--orange)
-        }
-
-        .exp-body {
-            padding-left: 1.5rem
-        }
+        .exp-entry.r .exp-card { opacity: 0; transform: translateX(40px); margin-left: .75rem }
+        .exp-entry.l .exp-card { opacity: 0; transform: translateX(-40px); margin-right: .75rem }
+        .exp-entry.in .exp-card { opacity: 1; transform: translateX(0) }
 
         .exp-role {
-            font-size: .98rem;
+            font-size: .95rem;
             font-weight: 700;
             color: var(--white);
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            gap: .5rem;
+            gap: .4rem;
             margin-bottom: .2rem;
         }
 
         .bdg {
             font-family: var(--mono);
-            font-size: .57rem;
-            padding: .14rem .52rem;
+            font-size: .55rem;
+            padding: .12rem .48rem;
             border-radius: 2rem;
             font-weight: 500;
         }
-
-        .bdg-blue {
-            background: rgba(47, 129, 247, .14);
-            color: var(--blue-l);
-            border: 1px solid rgba(47, 129, 247, .28)
-        }
-
-        .bdg-red {
-            background: rgba(248, 81, 73, .11);
-            color: var(--red);
-            border: 1px solid rgba(248, 81, 73, .28)
-        }
-
-        .bdg-green {
-            background: rgba(63, 185, 80, .11);
-            color: var(--green);
-            border: 1px solid rgba(63, 185, 80, .28)
-        }
-
-        .bdg-purple {
-            background: rgba(163, 113, 247, .11);
-            color: var(--purple);
-            border: 1px solid rgba(163, 113, 247, .28)
-        }
-
-        .bdg-orange {
-            background: rgba(210, 153, 34, .11);
-            color: var(--orange);
-            border: 1px solid rgba(210, 153, 34, .28)
-        }
+        .bdg-blue   { background: rgba(47,129,247,.14);  color: var(--blue-l); border: 1px solid rgba(47,129,247,.28) }
+        .bdg-red    { background: rgba(248,81,73,.11);   color: var(--red);    border: 1px solid rgba(248,81,73,.28)  }
+        .bdg-green  { background: rgba(63,185,80,.11);   color: var(--green);  border: 1px solid rgba(63,185,80,.28)  }
+        .bdg-purple { background: rgba(163,113,247,.11); color: var(--purple); border: 1px solid rgba(163,113,247,.28) }
+        .bdg-orange { background: rgba(210,153,34,.11);  color: var(--orange); border: 1px solid rgba(210,153,34,.28) }
 
         .exp-co {
             font-family: var(--mono);
-            font-size: .74rem;
+            font-size: .72rem;
             color: var(--blue-l);
             margin-bottom: .55rem;
         }
-
-        .exp-co a {
-            color: inherit;
-            text-decoration: none
-        }
-
-        .exp-co a:hover {
-            text-decoration: underline
-        }
+        .exp-co a { color: inherit; text-decoration: none }
+        .exp-co a:hover { text-decoration: underline }
 
         .exp-desc {
             color: var(--text-2);
-            font-size: .88rem;
+            font-size: .86rem;
             line-height: 1.72;
-            margin-bottom: .65rem
+            margin-bottom: .6rem;
         }
 
         .exp-bullets {
             list-style: none;
-            margin-bottom: .7rem
+            margin-bottom: .7rem;
         }
-
         .exp-bullets li {
             color: var(--text-2);
-            font-size: .85rem;
+            font-size: .83rem;
             line-height: 1.65;
-            padding: .18rem 0 .18rem 1.1rem;
+            padding: .15rem 0 .15rem 1rem;
             position: relative;
         }
-
         .exp-bullets li::before {
             content: '›';
             position: absolute;
             left: 0;
-            color: var(--blue)
+            color: var(--blue);
         }
-
-        .exp-bullets li strong {
-            color: var(--text)
-        }
+        .exp-bullets li strong { color: var(--text) }
 
         .exp-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: .35rem
+            gap: .3rem;
+            margin-top: .4rem;
         }
-
         .exp-tag {
             font-family: var(--mono);
-            font-size: .61rem;
-            padding: .13rem .52rem;
+            font-size: .6rem;
+            padding: .12rem .48rem;
             border-radius: 2rem;
             background: var(--bg-overlay);
             border: 1px solid var(--border-subtle);
@@ -2152,18 +2099,15 @@
                 grid-template-columns: 1fr
             }
 
-            .exp-it {
-                grid-template-columns: 1fr
-            }
-
-            .exp-it::after,
-            .exp-node {
-                display: none
-            }
-
-            .exp-body {
-                padding-left: 0
-            }
+            .exp-timeline::before { left: 24px; transform: none }
+            .exp-entry { grid-template-columns: 48px 1fr }
+            .exp-entry.r .exp-ph,
+            .exp-entry.l .exp-ph { display: none }
+            .exp-entry.r .exp-nc,
+            .exp-entry.l .exp-nc { grid-column: 1 }
+            .exp-entry.r .exp-card,
+            .exp-entry.l .exp-card { grid-column: 2; margin-left: .75rem; margin-right: 0 }
+            .exp-entry.l .exp-card { transform: translateX(24px) }
 
             .rc.feat {
                 grid-template-columns: 1fr
@@ -2795,16 +2739,18 @@
         <div class="pw">
             <p class="sec-lbl reveal">Experience</p>
             <h2 class="sec-t reveal">Professional History</h2>
-            <p class="sec-d reveal">A track record of technical leadership,  from building AI infrastructure and
+            <p class="sec-d reveal">A track record of technical leadership, from building AI infrastructure and
                 founding engineering teams to driving $56M+ in trading volume worldwide.</p>
 
-            <div class="exp-list">
+            <div class="exp-timeline">
 
-                <!-- Forward Outlook CTO -->
-                <div class="exp-it reveal">
-                    <div class="exp-dt">May 2026<br>Present</div>
-                    <div class="exp-node red"></div>
-                    <div class="exp-body">
+                <!-- Forward Outlook CTO → right -->
+                <div class="exp-entry r reveal">
+                    <div class="exp-nc">
+                        <div class="exp-node red"></div>
+                        <div class="exp-dt">May 2026<br>Present</div>
+                    </div>
+                    <div class="exp-card red">
                         <div class="exp-role">
                             Chief Technology Officer
                             <span class="bdg bdg-red">CTO</span>
@@ -2842,27 +2788,30 @@
                             <span class="exp-tag">Sentiment Analysis</span>
                         </div>
                     </div>
+                    <div class="exp-ph"></div>
                 </div>
 
-                <!-- Movable Games CTO -->
-                <div class="exp-it reveal">
-                    <div class="exp-dt">Jan 2026<br>Present</div>
-                    <div class="exp-node red"></div>
-                    <div class="exp-body">
+                <!-- Movable Games CTO → left -->
+                <div class="exp-entry l reveal">
+                    <div class="exp-nc">
+                        <div class="exp-node red"></div>
+                        <div class="exp-dt">Jan 2026<br>Present</div>
+                    </div>
+                    <div class="exp-card red">
                         <div class="exp-role">
                             Chief Technology Officer
                             <span class="bdg bdg-red">CTO</span>
                             <span class="bdg bdg-green">Current</span>
                         </div>
                         <div class="exp-co">Movable Games · Part-time · Lagos, Nigeria</div>
-                        <div class="exp-desc">Engineering a solution to "Symbol Amnesia",  the fundamental
+                        <div class="exp-desc">Engineering a solution to "Symbol Amnesia", the fundamental
                             disconnect where students struggle with abstract mathematical symbols yet demonstrate
                             extraordinary recall for complex narratives and procedural mechanics. Building a
                             neuroscience-backed platform that reconstructs mathematical symbolism to align with how
                             the human brain naturally encodes information.</div>
                         <ul class="exp-bullets">
                             <li><strong>Agent-Based Cognition:</strong> Leading a novel framework that reimagines
-                                mathematics through autonomous agents,  operators become interactive entities with
+                                mathematics through autonomous agents, operators become interactive entities with
                                 defined behaviors, leveraging the brain's superior capacity for procedural
                                 memory.</li>
                             <li><strong>Cognitive Alignment:</strong> Applying Symbol Grounding Theory and Embodied
@@ -2880,13 +2829,16 @@
                             <span class="exp-tag">Systems Architecture</span>
                         </div>
                     </div>
+                    <div class="exp-ph"></div>
                 </div>
 
-                <!-- Upwork Software Engineer -->
-                <div class="exp-it reveal">
-                    <div class="exp-dt">Mar 2025<br>Sep 2025</div>
-                    <div class="exp-node purple"></div>
-                    <div class="exp-body">
+                <!-- Upwork SE → right -->
+                <div class="exp-entry r reveal">
+                    <div class="exp-nc">
+                        <div class="exp-node purple"></div>
+                        <div class="exp-dt">Mar 2025<br>Sep 2025</div>
+                    </div>
+                    <div class="exp-card purple">
                         <div class="exp-role">
                             Software Engineer
                             <span class="bdg bdg-purple">Freelance</span>
@@ -2902,8 +2854,8 @@
                             <li><strong>Systems &amp; API Development:</strong> Developed low-latency backend
                                 components and integrated diverse financial and social APIs into scalable
                                 applications.</li>
-                            <li><strong>End-to-End Delivery:</strong> Managed the full development lifecycle,  from
-                                hardware-level C++ optimization to intuitive GUIs,  ensuring high code quality and
+                            <li><strong>End-to-End Delivery:</strong> Managed the full development lifecycle, from
+                                hardware-level C++ optimization to intuitive GUIs, ensuring high code quality and
                                 thread safety throughout.</li>
                         </ul>
                         <div class="exp-tags">
@@ -2915,20 +2867,23 @@
                             <span class="exp-tag">AI Agents</span>
                         </div>
                     </div>
+                    <div class="exp-ph"></div>
                 </div>
 
-                <!-- BBS Trading Founder -->
-                <div class="exp-it reveal">
-                    <div class="exp-dt">2023<br>Present</div>
-                    <div class="exp-node blue"></div>
-                    <div class="exp-body">
+                <!-- BBS Trading → left -->
+                <div class="exp-entry l reveal">
+                    <div class="exp-nc">
+                        <div class="exp-node blue"></div>
+                        <div class="exp-dt">2023<br>Present</div>
+                    </div>
+                    <div class="exp-card blue">
                         <div class="exp-role">
                             Founder &amp; Lead Developer
                             <span class="bdg bdg-blue">Open Source</span>
                         </div>
                         <div class="exp-co"><a href="https://github.com/bbalouki" target="_blank">BBS Trading ·
                                 github.com/bbalouki</a></div>
-                        <div class="exp-desc">Created and maintain <strong>bbstrader</strong>,  an
+                        <div class="exp-desc">Created and maintain <strong>bbstrader</strong>, an
                             institutional-grade, open-source investment &amp; trading toolkit combining Python and
                             C++20. Distributed on PyPI, documented on ReadTheDocs, and used by algorithmic traders
                             worldwide. Also developed a Nasdaq ITCH 5.0 Python parser, a high-performance C++20
@@ -2943,13 +2898,16 @@
                             <span class="exp-tag">NLP / ML</span>
                         </div>
                     </div>
+                    <div class="exp-ph"></div>
                 </div>
 
-                <!-- JustMarkets IB -->
-                <div class="exp-it reveal">
-                    <div class="exp-dt">Jan 2020<br>Present</div>
-                    <div class="exp-node green"></div>
-                    <div class="exp-body">
+                <!-- JustMarkets IB → right -->
+                <div class="exp-entry r reveal">
+                    <div class="exp-nc">
+                        <div class="exp-node green"></div>
+                        <div class="exp-dt">Jan 2020<br>Present</div>
+                    </div>
+                    <div class="exp-card green">
                         <div class="exp-role">
                             Business Partner · Introducing Broker
                             <span class="bdg bdg-green">IB</span>
@@ -2961,8 +2919,7 @@
                         <ul class="exp-bullets">
                             <li>Built and managed a personal network achieving over <strong>316 standard lots
                                     traded</strong>, representing a total trading volume exceeding
-                                <strong>$56 million</strong>.
-                            </li>
+                                <strong>$56 million</strong>.</li>
                             <li>Drove active trader acquisition through digital marketing, social media, and
                                 targeted campaigns.</li>
                             <li>Applied ethical promotion practices aligned with FSA, CySEC, FSC, and FSCA
@@ -2976,13 +2933,16 @@
                             <span class="exp-tag">Regulatory Compliance</span>
                         </div>
                     </div>
+                    <div class="exp-ph"></div>
                 </div>
 
-                <!-- Newsletter Author -->
-                <div class="exp-it reveal">
-                    <div class="exp-dt">2023<br>Present</div>
-                    <div class="exp-node blue"></div>
-                    <div class="exp-body">
+                <!-- Newsletter → left -->
+                <div class="exp-entry l reveal">
+                    <div class="exp-nc">
+                        <div class="exp-node blue"></div>
+                        <div class="exp-dt">2023<br>Present</div>
+                    </div>
+                    <div class="exp-card blue">
                         <div class="exp-role">
                             Author &amp; Publisher
                             <span class="bdg bdg-blue">Writing</span>
@@ -2990,7 +2950,7 @@
                         <div class="exp-co"><a href="https://thefintech.substack.com" target="_blank">TheFinTech
                                 Insights Digest · Substack</a></div>
                         <div class="exp-desc">Publishes in-depth technical content on distributed systems, fintech
-                            infrastructure, and algorithmic markets,  covering topics from P2P network architectures
+                            infrastructure, and algorithmic markets, covering topics from P2P network architectures
                             to quantitative trading mechanisms and AI system design.</div>
                         <div class="exp-tags">
                             <span class="exp-tag">Distributed Systems</span>
@@ -2998,6 +2958,7 @@
                             <span class="exp-tag">Technical Writing</span>
                         </div>
                     </div>
+                    <div class="exp-ph"></div>
                 </div>
 
             </div>
