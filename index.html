@@ -1077,7 +1077,7 @@
             background: var(--bg-subtle);
             border: 1px solid var(--border-subtle);
             border-radius: 10px;
-            padding: 1.2rem;
+            padding: 0 1.2rem 1.2rem;
             transition: all .2s;
             position: relative;
             overflow: hidden;
@@ -1152,16 +1152,17 @@
         }
 
         .ai-card-icon {
-            height: 38px;
-            margin-bottom: .85rem;
-            display: flex;
-            align-items: center;
+            height: clamp(180px, 16vw, 260px);
+            margin: 0 -1.2rem 1rem;
+            overflow: hidden;
+            background: var(--bg-inset);
         }
 
         .ai-card-icon img {
+            display: block;
+            width: 100%;
             height: 100%;
-            width: auto;
-            border-radius: 4px;
+            object-fit: cover;
         }
 
         .ai-card-title {
@@ -1219,12 +1220,16 @@
         .exp-entry {
             display: grid;
             grid-template-columns: 1fr 52px 1fr;
-            align-items: start;
+            align-items: stretch;
             margin-bottom: 3.5rem;
         }
 
         .exp-entry:last-child {
             margin-bottom: 0
+        }
+
+        .exp-entry>* {
+            grid-row: 1;
         }
 
         .exp-entry.reveal {
@@ -1362,13 +1367,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 1rem;
+            min-height: 100%;
+            overflow: hidden;
+            border-radius: calc(var(--r) * 4);
         }
 
         .exp-ph img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             box-shadow: 0 10px 30px rgba(0, 0, 0, .4);
             transition: transform .3s ease;
         }
@@ -1416,10 +1424,18 @@
             margin-left: .75rem
         }
 
+        .exp-entry.r .exp-ph {
+            margin-right: .75rem
+        }
+
         .exp-entry.l .exp-card {
             opacity: 0;
             transform: translateX(-40px);
             margin-right: .75rem
+        }
+
+        .exp-entry.l .exp-ph {
+            margin-left: .75rem
         }
 
         .exp-entry.in .exp-card {
