@@ -6,12 +6,12 @@ Personal portfolio website for **Bertin Balouki SIMYELI** : Quant Developer · S
 
 ## Highlights
 
-|                    |                                                  |
-| ------------------ | ------------------------------------------------ |
-| **Role**           | CTO × 2 (Movable Games · Forward Outlook)        |
+|                    |                                                |
+| ------------------ | ---------------------------------------------- |
+| **Role**           | CTO × 2 (Movable Games · Forward Outlook)      |
 | **Open-source**    | 70k+ PyPI downloads (`bbstrader` · `itchfeed`) |
-| **Trading volume** | $56M+ : JustMarkets, 316 lots                    |
-| **Location**       | West Africa                                      |
+| **Trading volume** | $56M+ : JustMarkets, 316 lots                  |
+| **Location**       | West Africa                                    |
 
 ## Tech Stack
 
