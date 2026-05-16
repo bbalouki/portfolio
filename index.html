@@ -1014,6 +1014,25 @@
             overflow: hidden;
         }
 
+        .rc-img-wrap {
+            margin-bottom: 1.2rem;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+            height: 140px;
+        }
+
+        .rc-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .3s ease;
+        }
+
+        .rc:hover .rc-img-wrap img {
+            transform: scale(1.05);
+        }
+
         .ai-hl::before {
             content: '';
             position: absolute;
@@ -1133,8 +1152,16 @@
         }
 
         .ai-card-icon {
-            font-size: 1.5rem;
-            margin-bottom: .65rem
+            height: 38px;
+            margin-bottom: .85rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .ai-card-icon img {
+            height: 100%;
+            width: auto;
+            border-radius: 4px;
         }
 
         .ai-card-title {
@@ -1329,6 +1356,25 @@
 
         .exp-entry.l .exp-ph {
             grid-column: 3
+        }
+
+        .exp-ph {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .exp-ph img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .4);
+            transition: transform .3s ease;
+        }
+
+        .exp-ph img:hover {
+            transform: scale(1.02);
         }
 
         .exp-card {
@@ -1548,16 +1594,22 @@
         }
 
         .edu-logo {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             border-radius: 8px;
             background: var(--bg-overlay);
             border: 1px solid var(--border-subtle);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
+            overflow: hidden;
             margin-bottom: 1rem;
+        }
+
+        .edu-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .edu-school {
@@ -2802,7 +2854,8 @@
                 <div class="reveal" style="transition-delay:.1s">
                     <div class="ai-grid">
                         <div class="ai-card llm">
-                            <div class="ai-card-icon">🧠</div>
+                            <div class="ai-card-icon"><img src="assets/images/llm_integration.png"
+                                    alt="LLM Integration"></div>
                             <div class="ai-card-title">LLM Integration</div>
                             <div class="ai-card-desc">Production integration of frontier language models for
                                 intelligent automation, document processing, booking AI, and real-time analytics
@@ -2816,7 +2869,7 @@
                         </div>
 
                         <div class="ai-card rag">
-                            <div class="ai-card-icon">🔍</div>
+                            <div class="ai-card-icon"><img src="assets/images/rag_systems.png" alt="RAG Systems"></div>
                             <div class="ai-card-title">RAG Systems</div>
                             <div class="ai-card-desc">Retrieval-Augmented Generation pipelines for intelligent data
                                 synthesis, business diagnostics, document AI, and enterprise knowledge
@@ -2830,7 +2883,7 @@
                         </div>
 
                         <div class="ai-card ml">
-                            <div class="ai-card-icon">📊</div>
+                            <div class="ai-card-icon"><img src="assets/images/ml-and_quant.png" alt="ML & Quant"></div>
                             <div class="ai-card-title">ML &amp; Quant</div>
                             <div class="ai-card-desc">Machine learning applied to financial markets, sentiment
                                 analysis, signal generation, portfolio optimization, risk modeling, and RL
@@ -2844,7 +2897,8 @@
                         </div>
 
                         <div class="ai-card agent">
-                            <div class="ai-card-icon">🤖</div>
+                            <div class="ai-card-icon"><img src="assets/images/agent_systems.png" alt="Agent Systems">
+                            </div>
                             <div class="ai-card-title">Agent Systems</div>
                             <div class="ai-card-desc">Multi-agent orchestration and autonomous systems for complex
                                 workflow automation, from financial data pipelines to neuroscience-backed edtech
@@ -2957,7 +3011,7 @@
                             <span class="exp-tag">Sentiment Analysis</span>
                         </div>
                     </div>
-                    <div class="exp-ph"></div>
+                    <div class="exp-ph"><img src="assets/images/cto.jpg" alt="CTO - Forward Outlook"></div>
                 </div>
 
                 <!-- Movable Games CTO → left -->
@@ -2998,7 +3052,7 @@
                             <span class="exp-tag">Systems Architecture</span>
                         </div>
                     </div>
-                    <div class="exp-ph"></div>
+                    <div class="exp-ph"><img src="assets/images/cto.jpg" alt="CTO - Movable Games"></div>
                 </div>
 
                 <!-- Upwork SE → right -->
@@ -3036,7 +3090,7 @@
                             <span class="exp-tag">AI Agents</span>
                         </div>
                     </div>
-                    <div class="exp-ph"></div>
+                    <div class="exp-ph"><img src="assets/images/software_engineer.jpg" alt="Software Engineer"></div>
                 </div>
 
                 <!-- BBS Trading → left -->
@@ -3067,7 +3121,8 @@
                             <span class="exp-tag">NLP / ML</span>
                         </div>
                     </div>
-                    <div class="exp-ph"></div>
+                    <div class="exp-ph"><img src="assets/images/software_engineer.jpg" alt="Founder & Lead Developer">
+                    </div>
                 </div>
 
                 <!-- JustMarkets IB → right -->
@@ -3103,7 +3158,7 @@
                             <span class="exp-tag">Regulatory Compliance</span>
                         </div>
                     </div>
-                    <div class="exp-ph"></div>
+                    <div class="exp-ph"><img src="assets/images/ib.jpg" alt="Introducing Broker"></div>
                 </div>
 
                 <!-- Newsletter → left -->
@@ -3128,7 +3183,7 @@
                             <span class="exp-tag">Technical Writing</span>
                         </div>
                     </div>
-                    <div class="exp-ph"></div>
+                    <div class="exp-ph"><img src="assets/images/writter.jpg" alt="Author & Publisher"></div>
                 </div>
 
             </div>
@@ -3148,7 +3203,7 @@
             <div class="edu-g">
 
                 <div class="edu-c cs reveal">
-                    <div class="edu-logo">🎓</div>
+                    <div class="edu-logo"><img src="assets/images/uop.jpeg" alt="University of the People"></div>
                     <div class="edu-school">University of the People</div>
                     <div class="edu-degree">Bachelor of Science, Computer Science</div>
                     <div class="edu-meta">GPA: 3.58 <br>Accredited </div>
@@ -3163,7 +3218,7 @@
                 </div>
 
                 <div class="edu-c mit reveal" style="transition-delay:.08s">
-                    <div class="edu-logo">⚙️</div>
+                    <div class="edu-logo"><img src="assets/images/mit--open-learning.png" alt="MIT Open Learning"></div>
                     <div class="edu-school">MIT Open Learning</div>
                     <div class="edu-degree">Computer and Information Sciences, General</div>
                     <div class="edu-meta">Skills: Parallel Computing · Conversion Optimization</div>
@@ -3177,7 +3232,7 @@
                 </div>
 
                 <div class="edu-c cfi reveal" style="transition-delay:.16s">
-                    <div class="edu-logo">📈</div>
+                    <div class="edu-logo"><img src="assets/images/cfi.jpeg" alt="CFI"></div>
                     <div class="edu-school">Corporate Finance Institute® (CFI)</div>
                     <div class="edu-degree">FMVA · BIDA · CMSA</div>
                     <div class="edu-meta">Banking · Corporate Finance · Securities Law</div>
@@ -3190,7 +3245,7 @@
                 </div>
 
                 <div class="edu-c harvard reveal" style="transition-delay:.24s">
-                    <div class="edu-logo">🏛️</div>
+                    <div class="edu-logo"><img src="assets/images/harvard.jpeg" alt="Harvard University"></div>
                     <div class="edu-school">Harvard University</div>
                     <div class="edu-degree">CS50x, Introduction to Computer Science</div>
                     <div class="edu-meta">Certificate of Completion · Cambridge, MA · 2023<br>10 Problem Sets · 9 Labs ·
@@ -3231,6 +3286,9 @@
                             <div
                                 style="font-family:var(--mono);font-size:.63rem;color:var(--text-3);margin-bottom:.4rem">
                                 FLAGSHIP PROJECT</div>
+                            <div class="rc-img-wrap" style="height: 200px; margin-bottom: 1.5rem;">
+                                <img src="assets/images/bbstrader.png" alt="bbstrader project cover">
+                            </div>
                             <div class="rc-hdr">
                                 <div class="rc-name"><span>bbalouki / </span>bbstrader</div>
                                 <div class="rc-links">
@@ -3310,6 +3368,9 @@
                     </div>
 
                     <div class="rc reveal">
+                        <div class="rc-img-wrap">
+                            <img src="assets/images/itch_py.png" alt="itch project cover">
+                        </div>
                         <div class="rc-hdr">
                             <span style="font-size:1rem">📦</span>
                             <div class="rc-links">
@@ -3347,6 +3408,9 @@
                     </div>
 
                     <div class="rc reveal" style="transition-delay:.08s">
+                        <div class="rc-img-wrap">
+                            <img src="assets/images/itch_cpp.png" alt="itchcpp project cover">
+                        </div>
                         <div class="rc-hdr">
                             <span style="font-size:1rem">⚡</span>
                             <div class="rc-links">
@@ -3389,6 +3453,9 @@ auto <span class="cv">msgs</span> = <span class="cv">parser</span>.<span class="
                     </div>
 
                     <div class="rc reveal" style="transition-delay:.16s">
+                        <div class="rc-img-wrap">
+                            <img src="assets/images/econdb.png" alt="economydb project cover">
+                        </div>
                         <div class="rc-hdr">
                             <span style="font-size:1rem">🗄️</span>
                             <div class="rc-links">
@@ -3430,6 +3497,9 @@ auto <span class="cv">msgs</span> = <span class="cv">parser</span>.<span class="
                     </div>
 
                     <div class="rc reveal" style="transition-delay:.24s">
+                        <div class="rc-img-wrap">
+                            <img src="assets/images/lerancpp.png" alt="LearnCpp project cover">
+                        </div>
                         <div class="rc-hdr">
                             <span style="font-size:1rem">📖</span>
                             <div class="rc-links">
@@ -3465,6 +3535,9 @@ cmake --build build</pre>
                     </div>
 
                     <div class="rc reveal" style="transition-delay:.32s">
+                        <div class="rc-img-wrap">
+                            <img src="assets/images/design_patterns.png" alt="DesignPatterns project cover">
+                        </div>
                         <div class="rc-hdr">
                             <span style="font-size:1rem">🧩</span>
                             <div class="rc-links">
