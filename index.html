@@ -100,7 +100,7 @@
             color: var(--text)
         }
 
-        /* ── FLOATING BLOBS ── */
+        /*  FLOATING BLOBS  */
         .site-bg {
             position: fixed;
             inset: 0;
@@ -155,7 +155,7 @@
             }
         }
 
-        /* ── NAV ── */
+        /*  NAV  */
         #nav {
             position: fixed;
             top: 0;
@@ -227,7 +227,44 @@
             box-shadow: 0 0 18px rgba(47, 129, 247, .35)
         }
 
-        /* ── HERO ── */
+        .nav-toggle {
+            display: none;
+            width: 36px;
+            height: 36px;
+            background: transparent;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--r);
+            cursor: pointer;
+            padding: 0;
+            margin-left: .5rem;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 18px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: transform .2s, opacity .2s;
+        }
+
+        .nav-toggle.open span:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .nav-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-toggle.open span:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+
+        /*  HERO  */
         #hero {
             min-height: 100vh;
             padding: 6rem 2rem 5rem;
@@ -350,7 +387,7 @@
             }
         }
 
-        /* ── HERO NAME ── */
+        /*  HERO NAME  */
         .hero-name-wrap {
             opacity: 0;
             animation: rise .7s .2s ease forwards;
@@ -664,7 +701,7 @@
             }
         }
 
-        /* ── HERO FLOATING CARDS ── */
+        /*  HERO FLOATING CARDS  */
         .hero-floaters {
             width: 290px;
             flex-shrink: 0;
@@ -764,7 +801,7 @@
             color: var(--red);
         }
 
-        /* ── SHARED LAYOUT ── */
+        /*  SHARED LAYOUT  */
         .pw {
             max-width: 1280px;
             margin: 0 auto;
@@ -818,7 +855,7 @@
             line-height: 1.75;
         }
 
-        /* ── ABOUT ── */
+        /*  ABOUT  */
         #about {
             padding: 6rem 0
         }
@@ -980,7 +1017,7 @@
             background: rgba(163, 113, 247, .15)
         }
 
-        /* ── AI SECTION ── */
+        /*  AI SECTION  */
         #ai {
             padding: 6rem 0
         }
@@ -1195,8 +1232,8 @@
             color: var(--text-3);
         }
 
-        /* ── EXPERIENCE ── */
-        /* ── EXPERIENCE ── */
+        /*  EXPERIENCE  */
+        /*  EXPERIENCE  */
         #experience {
             padding: 6rem 0
         }
@@ -1556,7 +1593,7 @@
             color: var(--text-3);
         }
 
-        /* ── EDUCATION ── */
+        /*  EDUCATION  */
         #education {
             padding: 6rem 0
         }
@@ -1681,7 +1718,7 @@
             text-decoration: underline
         }
 
-        /* ── PROJECTS ── */
+        /*  PROJECTS  */
         #projects {
             padding: 6rem 0
         }
@@ -1878,7 +1915,7 @@
             color: #ffa657
         }
 
-        /* ── WRITING ── */
+        /*  WRITING  */
         #writing {
             padding: 6rem 0
         }
@@ -1993,7 +2030,7 @@
             color: var(--text-2)
         }
 
-        /* ── CONTACT ── */
+        /*  CONTACT  */
         #contact {
             padding: 6rem 0
         }
@@ -2138,7 +2175,7 @@
             border-radius: var(--r);
         }
 
-        /* ── FOOTER ── */
+        /*  FOOTER  */
         footer {
             border-top: 1px solid var(--border-subtle);
             padding: 1.75rem 2rem;
@@ -2174,7 +2211,7 @@
             color: var(--text)
         }
 
-        /* ── CONTACT LINK ACCENTS ── */
+        /*  CONTACT LINK ACCENTS  */
         .cl-wa:hover {
             border-color: #25d366;
             background: rgba(37, 211, 102, .06)
@@ -2197,7 +2234,7 @@
             display: block
         }
 
-        /* ── FLOATING CHAT WIDGET ── */
+        /*  FLOATING CHAT WIDGET  */
         .chat-widget {
             position: fixed;
             bottom: 1.75rem;
@@ -2249,7 +2286,7 @@
             letter-spacing: .02em
         }
 
-        /* ── ANIMATIONS ── */
+        /*  ANIMATIONS  */
         @keyframes rise {
             from {
                 opacity: 0;
@@ -2273,7 +2310,7 @@
             transform: none
         }
 
-        /* ── RESPONSIVE ── */
+        /*  RESPONSIVE  */
         @media(max-width: 1100px) {
             .hero-floaters {
                 display: none
@@ -2285,8 +2322,66 @@
                 padding: 0 1rem
             }
 
+            .nav-toggle {
+                display: inline-flex;
+            }
+
             .nav-links {
-                display: none
+                display: none;
+                position: absolute;
+                top: 56px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                gap: .2rem;
+                padding: .6rem 1rem;
+                background: rgba(13, 17, 23, .96);
+                backdrop-filter: blur(18px);
+                border-bottom: 1px solid var(--border-subtle);
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links a {
+                display: block;
+                white-space: nowrap;
+                padding: .7rem .9rem;
+                font-size: .8rem;
+            }
+
+            .exp-ph img,
+            .rc-img-wrap img,
+            .ai-card-icon img,
+            .edu-logo img {
+                object-fit: contain;
+                background: var(--bg-inset);
+            }
+
+            .exp-ph img {
+                width: 100%;
+                height: auto;
+                max-height: none;
+            }
+
+            .rc-img-wrap {
+                height: auto;
+            }
+
+            .rc-img-wrap img {
+                height: auto;
+                max-height: 220px;
+            }
+
+            .ai-card-icon {
+                height: auto;
+                min-height: 0;
+            }
+
+            .ai-card-icon img {
+                height: auto;
+                max-height: 200px;
             }
 
             #hero,
@@ -2297,7 +2392,8 @@
 
             #hero {
                 flex-direction: column;
-                gap: 0
+                gap: 0;
+                padding-top: 6.5rem
             }
 
             .about-g,
@@ -2317,28 +2413,42 @@
             }
 
             .exp-entry {
-                grid-template-columns: 48px 1fr
+                grid-template-columns: 48px minmax(0, 1fr);
+                align-items: start;
+                row-gap: 0
             }
 
-            .exp-entry.r .exp-ph,
-            .exp-entry.l .exp-ph {
-                display: none
+            .exp-entry>* {
+                grid-row: auto
             }
 
             .exp-entry.r .exp-nc,
             .exp-entry.l .exp-nc {
-                grid-column: 1
+                grid-column: 1;
+                grid-row: 1 / span 2;
+                height: 100%
+            }
+
+            .exp-entry.r .exp-ph,
+            .exp-entry.l .exp-ph {
+                display: flex;
+                grid-column: 2;
+                grid-row: 1;
+                height: auto;
+                min-height: 0;
+                margin: 0 0 .75rem .75rem
             }
 
             .exp-entry.r .exp-card,
             .exp-entry.l .exp-card {
                 grid-column: 2;
+                grid-row: 2;
                 margin-left: .75rem;
                 margin-right: 0
             }
 
             .exp-entry.l .exp-card {
-                transform: translateX(24px)
+                transform: none
             }
 
             .rc.feat {
@@ -2355,7 +2465,6 @@
         }
 
         @media(max-width: 600px) {
-
             .repo-g,
             .art-g,
             .edu-g {
@@ -2371,7 +2480,7 @@
             }
         }
 
-        /* ── RAG PIPELINE DIAGRAM ── */
+        /*  RAG PIPELINE DIAGRAM  */
         .rag-pipe {
             margin-top: 2.5rem;
             background: var(--bg-subtle);
@@ -2495,7 +2604,7 @@
             color: var(--blue-l)
         }
 
-        /* ── BACKTEST OUTPUT COLORS ── */
+        /*  BACKTEST OUTPUT COLORS  */
         .bt-pos {
             color: var(--green)
         }
@@ -2526,7 +2635,7 @@
             font-weight: 700
         }
 
-        /* ── ITCH OUTPUT COLORS ── */
+        /*  ITCH OUTPUT COLORS  */
         .it-add {
             color: var(--green)
         }
@@ -2559,7 +2668,7 @@
         <a href="#" class="nav-logo">
             <div class="nav-dot"></div>BBS
         </a>
-        <ul class="nav-links">
+        <ul class="nav-links" id="nav-links">
             <li><a href="#about">About</a></li>
             <li><a href="#ai">AI &amp; ML</a></li>
             <li><a href="#experience">Experience</a></li>
@@ -2567,6 +2676,9 @@
             <li><a href="#projects">Projects</a></li>
             <li><a href="#writing">Writing</a></li>
         </ul>
+        <button id="nav-toggle" class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
+            <span></span><span></span><span></span>
+        </button>
         <a href="#contact" class="nav-cta">Contact me</a>
     </nav>
 
@@ -3789,6 +3901,20 @@ cmake --build build</pre>
             window.location.href = `mailto:bertin@bbs-trading.com?subject=${encodeURIComponent(s || 'Portfolio Inquiry')}&body=${encodeURIComponent('Name: ' + n + '\nEmail: ' + em + '\n\n' + m)}`;
             document.getElementById('form-ok').style.display = 'block';
         }
+
+        /* Mobile hamburger menu */
+        const navToggle = document.getElementById('nav-toggle');
+        const navLinks = document.getElementById('nav-links');
+        navToggle.addEventListener('click', () => {
+            const open = navLinks.classList.toggle('open');
+            navToggle.classList.toggle('open', open);
+            navToggle.setAttribute('aria-expanded', open);
+        });
+        navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            navToggle.classList.remove('open');
+            navToggle.setAttribute('aria-expanded', 'false');
+        }));
 
         /* Scroll-based nav opacity */
         window.addEventListener('scroll', () => {
